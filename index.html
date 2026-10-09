@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spanisch Übung: Subjuntivo & Vokabular</title>
+<style>
+  :root {
+    --bg: #f7f5f0; --card: #ffffff; --text: #1f2a24; --muted: #6b766f;
+    --accent: #2e7d5b; --accent-soft: #e3f1ea; --bad: #b3412e; --bad-soft: #f8e4e0;
+    --border: #d9d4c7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161a18; --card: #1e2421; --text: #e8efe9; --muted: #98a59d;
+      --accent: #5cc08f; --accent-soft: #223a2e; --bad: #e07a66; --bad-soft: #3a2420;
+      --border: #333c37;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161a18; --card: #1e2421; --text: #e8efe9; --muted: #98a59d;
+    --accent: #5cc08f; --accent-soft: #223a2e; --bad: #e07a66; --bad-soft: #3a2420;
+    --border: #333c37;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  body { padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 0px); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 24px 0 48px; }
+  h1 { font-size: 1.35rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+  .progress { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
+  .progress > div { height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+  .tag { display: inline-block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em;
+    color: var(--accent); background: var(--accent-soft); padding: 3px 8px; border-radius: 6px; margin-bottom: 12px; }
+  .q { font-size: 1.15rem; line-height: 1.5; margin: 0 0 16px; }
+  .hint { color: var(--muted); font-size: 0.9rem; margin-top: -8px; margin-bottom: 14px; }
+  .opts { display: grid; gap: 10px; }
+  button.opt, button.primary, button.ghost {
+    font: inherit; cursor: pointer; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); padding: 12px 14px; text-align: left; min-height: 44px;
+  }
+  button.opt:hover:not(:disabled) { border-color: var(--accent); }
+  button.opt.correct { background: var(--accent-soft); border-color: var(--accent); }
+  button.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  button.opt:disabled { cursor: default; }
+  .row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  input.gap { font: inherit; padding: 12px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text); width: 100%; min-height: 44px; }
+  input.gap.correct { border-color: var(--accent); background: var(--accent-soft); }
+  input.gap.wrong { border-color: var(--bad); background: var(--bad-soft); }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); text-align: center; font-weight: 600; }
+  button.ghost { text-align: center; color: var(--muted); }
+  .feedback { margin-top: 16px; padding: 12px 14px; border-radius: 10px; font-size: 0.95rem; line-height: 1.45; }
+  .feedback.ok { background: var(--accent-soft); }
+  .feedback.no { background: var(--bad-soft); }
+  .score { text-align: center; padding: 20px 0; }
+  .score .big { font-size: 2.6rem; font-weight: 700; color: var(--accent); }
+  .hidden { display: none; }
+  .modes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .modes button { font: inherit; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); cursor: pointer; min-height: 40px; }
+  .modes button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Spanisch Übung</h1>
+  <div class="sub">Subjuntivo presente, Auslöser und Vokabular (U6A)</div>
+
+  <div class="modes">
+    <button id="m-all" class="active">Alles gemischt</button>
+    <button id="m-subj">Nur Subjuntivo</button>
+    <button id="m-vocab">Nur Vokabular</button>
+  </div>
+
+  <div class="progress"><div id="bar"></div></div>
+
+  <div id="quiz" class="card">
+    <div class="tag" id="type"></div>
+    <p class="q" id="question"></p>
+    <div id="hint" class="hint hidden"></div>
+    <div id="area"></div>
+    <div id="feedback" class="feedback hidden"></div>
+    <div class="row">
+      <button id="check" class="primary hidden">Prüfen</button>
+      <button id="next" class="primary hidden">Weiter</button>
+    </div>
+  </div>
+
+  <div id="result" class="card score hidden">
+    <div>Dein Ergebnis</div>
+    <div class="big" id="final"></div>
+    <div class="sub" id="comment"></div>
+    <div class="row" style="justify-content:center">
+      <button id="restart" class="primary">Nochmal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUBJ = [
+  { type: "Subjuntivo nach Emoción", q: "Espero que tú ___ mañana. (venir)", answer: "vengas",
+    hint: "venir → yo-Form venGO → Subjuntivo: venga, vengas …", expl: "Nach „Espero que“ steht der Subjuntivo: vengas." },
+  { type: "Subjuntivo nach Emoción", q: "Me alegra que ustedes ___ aquí. (estar)", answer: "estén",
+    hint: "estar ist unregelmäßig im Subjuntivo.", expl: "„Me alegra que“ + Subjuntivo: estén." },
+  { type: "Subjuntivo nach Emoción", q: "Tengo miedo de que el tren ___ tarde.", answer: "llegue",
+    hint: "llegar ist regelmäßig: -ar → -e.", expl: "„Tengo miedo de que“ + Subjuntivo: llegue." },
+  { type: "Subjuntivo nach Emoción", q: "Es triste que mis amigos no ___ al intercambio. (ir)", answer: "vayan",
+    hint: "ir: vaya, vayas, vaya, vayamos, vayáis, vayan.", expl: "„Es triste que“ + Subjuntivo: vayan." },
+  { type: "Subjuntivo nach Emoción", q: "¡Qué bien que tú ___ participar en el concurso! (poder)", answer: "puedas",
+    hint: "poder: pueda, puedas, pueda …", expl: "„Qué bien que“ + Subjuntivo: puedas." },
+  { type: "Subjuntivo nach Emoción", q: "Me sorprende que vosotros ___ tan temprano. (llegar)", answer: "lleguéis",
+    hint: "-ar-Verben: Subjuntivo mit -e-, vosotros: -éis.", expl: "„Me sorprende que“ + Subjuntivo: lleguéis." },
+  { type: "Subjuntivo Formen", q: "Ergänze die Form von „hablar“ (yo): que yo ___", answer: "hable",
+    hint: "-ar: -e, -es, -e, -emos, -éis, -en", expl: "hable" },
+  { type: "Subjuntivo Formen", q: "Ergänze die Form von „comer“ (nosotros): que nosotros ___", answer: "comamos",
+    hint: "-er/-ir: -a, -as, -a, -amos, -áis, -an", expl: "comamos" },
+  { type: "Subjuntivo Formen", q: "Ergänze die Form von „vivir“ (ellos): que ellos ___", answer: "vivan",
+    hint: "-er/-ir: -a, -as, -a, -amos, -áis, -an", expl: "vivan" },
+  { type: "Subjuntivo Formen", q: "Ergänze die Form von „ser“ (tú): que tú ___", answer: "seas",
+    hint: "ser ist unregelmäßig: sea, seas, sea, seamos, seáis, sean.", expl: "seas" },
+  { type: "Subjuntivo Formen", q: "Ergänze die Form von „hacer“ (yo): que yo ___", answer: "haga",
+    hint: "Die yo-Form von hacer hilft: hago → haga.", expl: "haga" },
+];
+
+const VOCAB = [
+  { type: "Vokabular", q: "viajar", options: ["reisen", "tanzen", "lernen", "wohnen"], answer: 0 },
+  { type: "Vokabular", q: "participar en", options: ["teilnehmen an", "verlassen", "gewinnen", "bezahlen"], answer: 0 },
+  { type: "Vokabular", q: "el intercambio", options: ["der Austausch", "die Prüfung", "die Reise", "der Lehrer"], answer: 0 },
+  { type: "Vokabular", q: "imaginarse", options: ["sich vorstellen", "sich erinnern", "sich beeilen", "sich setzen"], answer: 0 },
+  { type: "Vokabular", q: "ideal", options: ["ideal / perfekt", "schwierig", "laut", "alt"], answer: 0 },
+  { type: "Vokabular", q: "el instituto", options: ["die Schule", "das Institut", "das Krankenhaus", "die Bibliothek"], answer: 0 },
+  { type: "Vokabular", q: "la comprensión lectora", options: ["das Leseverstehen", "das Hörverstehen", "die Grammatik", "die Aussprache"], answer: 0 },
+  { type: "Vokabular", q: "la expresión escrita", options: ["der schriftliche Ausdruck", "das Diktat", "die Redewendung", "das Gespräch"], answer: 0 },
+];
+
+const MODES = { all: "all", subj: "subj", vocab: "vocab" };
+let mode = MODES.all;
+let queue = [], idx = 0, score = 0, answered = false;
+
+function shuffle(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+
+function buildQueue() {
+  let items = [];
+  if (mode !== MODES.vocab) items = items.concat(SUBJ.map(x => ({ ...x, kind: "gap" })));
+  if (mode !== MODES.subj) items = items.concat(VOCAB.map(x => ({ ...x, kind: "mc" })));
+  queue = shuffle(items);
+  idx = 0; score = 0;
+}
+
+function setActiveMode(m) {
+  mode = m;
+  ["m-all", "m-subj", "m-vocab"].forEach(id => document.getElementById(id).classList.remove("active"));
+  document.getElementById({ all: "m-all", subj: "m-subj", vocab: "m-vocab" }[m]).classList.add("active");
+  start();
+}
+
+function start() {
+  buildQueue();
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("result").classList.add("hidden");
+  render();
+}
+
+function render() {
+  const item = queue[idx];
+  const area = document.getElementById("area");
+  const fb = document.getElementById("feedback");
+  const hint = document.getElementById("hint");
+  fb.className = "feedback hidden"; fb.textContent = "";
+  answered = false;
+  document.getElementById("bar").style.width = (idx / queue.length * 100) + "%";
+  document.getElementById("type").textContent = item.type;
+  document.getElementById("question").textContent = item.q;
+  area.innerHTML = "";
+  document.getElementById("check").classList.add("hidden");
+  document.getElementById("next").classList.add("hidden");
+
+  if (item.kind === "gap") {
+    hint.textContent = "Tipp: " + item.hint;
+    hint.classList.remove("hidden");
+    area.innerHTML = '<input class="gap" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Antwort eingeben …">';
+    const input = document.getElementById("ans");
+    input.addEventListener("keydown", e => { if (e.key === "Enter") submitGap(); });
+    document.getElementById("check").classList.remove("hidden");
+    document.getElementById("check").onclick = submitGap;
+    input.focus();
+  } else {
+    hint.classList.add("hidden");
+    const opts = document.createElement("div");
+    opts.className = "opts";
+    item.options.forEach((o, i) => {
+      const b = document.createElement("button");
+      b.className = "opt"; b.textContent = o;
+      b.onclick = () => pickMc(i);
+      opts.appendChild(b);
+    });
+    area.appendChild(opts);
+  }
+}
+
+function norm(s) { return s.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
+
+function submitGap() {
+  if (answered) return;
+  const item = queue[idx];
+  const input = document.getElementById("ans");
+  const val = input.value;
+  if (!val.trim()) return;
+  answered = true;
+  const ok = norm(val) === norm(item.answer);
+  if (ok) score++;
+  input.classList.add(ok ? "correct" : "wrong");
+  input.disabled = true;
+  showFeedback(ok, ok ? "Richtig! " + item.expl : "Leider falsch. Richtig wäre: " + item.answer + ". " + item.expl);
+}
+
+function pickMc(i) {
+  if (answered) return;
+  const item = queue[idx];
+  answered = true;
+  const buttons = document.querySelectorAll("button.opt");
+  buttons.forEach(b => b.disabled = true);
+  const ok = i === item.answer;
+  if (ok) score++;
+  buttons[i].classList.add(ok ? "correct" : "wrong");
+  if (!ok) buttons[item.answer].classList.add("correct");
+  showFeedback(ok, ok ? "Richtig!" : "Leider falsch. Richtig: " + item.options[item.answer] + ".");
+}
+
+function showFeedback(ok, text) {
+  const fb = document.getElementById("feedback");
+  fb.className = "feedback " + (ok ? "ok" : "no");
+  fb.textContent = text;
+  const next = document.getElementById("next");
+  next.classList.remove("hidden");
+  next.textContent = idx + 1 < queue.length ? "Weiter" : "Ergebnis anzeigen";
+  document.getElementById("check").classList.add("hidden");
+  next.onclick = nextQ;
+}
+
+function nextQ() {
+  idx++;
+  if (idx >= queue.length) return finish();
+  render();
+}
+
+function finish() {
+  document.getElementById("bar").style.width = "100%";
+  document.getElementById("quiz").classList.add("hidden");
+  const res = document.getElementById("result");
+  res.classList.remove("hidden");
+  const pct = Math.round(score / queue.length * 100);
+  document.getElementById("final").textContent = score + " / " + queue.length + " (" + pct + " %)";
+  document.getElementById("comment").textContent =
+    pct >= 80 ? "Sehr gut! Der Subjuntivo sitzt." :
+    pct >= 50 ? "Solide. Schau dir die Formen an, bei denen du unsicher warst, und probier es nochmal." :
+    "Kein Problem. Wiederhole die Endungen (-e/-a) und die Auslöser, dann klappt es beim nächsten Mal.";
+}
+
+document.getElementById("m-all").onclick = () => setActiveMode("all");
+document.getElementById("m-subj").onclick = () => setActiveMode("subj");
+document.getElementById("m-vocab").onclick = () => setActiveMode("vocab");
+document.getElementById("restart").onclick = start;
+
+start();
+</script>
+</body>
+</html>
