@@ -3,507 +3,875 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Spanisch Prüfungsvorbereitung – Clase 10</title>
+<title>Español – Clase 10</title>
 <style>
-:root{--bg:#f4f2ed;--card:#fff;--text:#1c2820;--muted:#6b7a6f;--accent:#2a7a52;--as:#dff0e8;--bad:#b3412e;--bs:#fce8e4;--border:#d5d0c5;--tag:#e8f5f0;--tagtxt:#1d6b43}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141918;--card:#1c2320;--text:#e6ede7;--muted:#8fa396;--accent:#4db882;--as:#1c3d2c;--bad:#d97060;--bs:#3a2220;--border:#2e3830;--tag:#1c3d2c;--tagtxt:#4db882}}
+:root{
+  --bg:#f0ede6;--card:#ffffff;--card2:#f8f6f2;--text:#1a2218;--muted:#7a8a7e;
+  --accent:#1e6e45;--ac2:#e4f0e9;--bad:#c0392b;--bad2:#fdecea;
+  --border:#ddd8ce;--tag-bg:#d6eede;--tag-txt:#1a5e38;
+  --gold:#b8860b;--gold2:#fdf6e3;--shadow:0 2px 12px rgba(0,0,0,.07);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121714;--card:#1a1f1c;--card2:#1f2620;--text:#e2ede4;--muted:#7a9480;
+  --accent:#3dab6a;--ac2:#163024;--bad:#e06050;--bad2:#2e1a18;
+  --border:#2a3328;--tag-bg:#163024;--tag-txt:#3dab6a;
+  --gold:#d4a017;--gold2:#1e1a10;--shadow:0 2px 12px rgba(0,0,0,.3);
+}}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100%}
-body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,60px)}
 
-/* NAV */
-.nav{display:flex;gap:4px;padding:14px 16px 0;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:var(--bg);z-index:10;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.nav::-webkit-scrollbar{display:none}
-.nav button{white-space:nowrap;font:inherit;font-size:.85rem;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;min-height:38px}
-.nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* ── TOP NAV ── */
+.topnav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:0 16px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.topnav::-webkit-scrollbar{display:none}
+.topnav button{flex-shrink:0;font:600 .82rem/1 inherit;padding:14px 16px;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.topnav button.on{color:var(--accent);border-bottom-color:var(--accent)}
 
-/* WRAP */
-.wrap{max-width:680px;margin:0 auto;padding:20px 16px 60px}
-.page{display:none}.page.show{display:block}
+/* ── PAGES ── */
+.page{display:none}.page.on{display:block}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 40px}
 
-/* QUIZ */
-.progress{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:16px}
-.progress>div{height:100%;background:var(--accent);width:0;transition:width .3s}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
-.tag{display:inline-block;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--tagtxt);background:var(--tag);padding:3px 9px;border-radius:6px;margin-bottom:10px}
-.q{font-size:1.1rem;line-height:1.55;margin-bottom:14px}
-.hint{color:var(--muted);font-size:.88rem;margin-bottom:12px}
-.opts{display:grid;gap:8px}
-button.opt{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:11px 13px;text-align:left;min-height:44px;line-height:1.35}
-button.opt:hover:not(:disabled){border-color:var(--accent)}
-button.opt.correct{background:var(--as);border-color:var(--accent)}
-button.opt.wrong{background:var(--bs);border-color:var(--bad)}
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:14px}
+.card-flat{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+
+/* ── TAGS / BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:3px 10px;border-radius:999px}
+.badge-green{background:var(--tag-bg);color:var(--tag-txt)}
+.badge-gold{background:var(--gold2);color:var(--gold)}
+.badge-red{background:var(--bad2);color:var(--bad)}
+
+/* ── DIFFICULTY SELECTOR ── */
+.diff-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.diff-btn{flex:1;min-width:80px;font:600 .85rem/1 inherit;padding:10px 8px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;text-align:center;transition:all .15s}
+.diff-btn.on-easy{border-color:#2e9e5a;background:#e8f7ee;color:#1a6038}
+.diff-btn.on-medium{border-color:var(--gold);background:var(--gold2);color:var(--gold)}
+.diff-btn.on-hard{border-color:var(--bad);background:var(--bad2);color:var(--bad)}
+@media(prefers-color-scheme:dark){
+  .diff-btn.on-easy{background:#143520}
+  .diff-btn.on-medium{background:#1e1a10}
+  .diff-btn.on-hard{background:#2e1a18}
+}
+
+/* ── CATEGORY MENU ── */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.cat-btn{font:inherit;padding:14px 12px;border-radius:13px;border:1.5px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;text-align:left;transition:all .15s;line-height:1.35}
+.cat-btn:hover{border-color:var(--accent)}
+.cat-btn.on{border-color:var(--accent);background:var(--ac2)}
+.cat-btn .cat-icon{display:block;margin-bottom:6px;width:28px;height:28px}
+.cat-btn .cat-icon svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cat-btn.final-cat{grid-column:1/-1;border-color:var(--accent);background:var(--ac2)}
+.cat-btn.final-cat .cat-icon svg{stroke:var(--accent)}
+.cat-btn .cat-name{font-size:.88rem;font-weight:600}
+.cat-btn .cat-sub{font-size:.76rem;color:var(--muted)}
+
+/* ── PROGRESS ── */
+.prog-wrap{margin-bottom:14px}
+.prog-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-bar>div{height:100%;background:var(--accent);border-radius:3px;transition:width .35s}
+.prog-meta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-top:5px}
+
+/* ── QUESTION ── */
+.q-text{font-size:1.12rem;line-height:1.55;margin:10px 0 16px;font-weight:500}
+.opts{display:grid;gap:9px}
+button.opt{font:inherit;font-size:.95rem;cursor:pointer;border-radius:11px;border:1.5px solid var(--border);background:var(--card);color:var(--text);padding:12px 15px;text-align:left;line-height:1.4;min-height:48px;transition:border-color .1s,background .1s}
+button.opt:hover:not(:disabled){border-color:var(--accent);background:var(--ac2)}
 button.opt:disabled{cursor:default}
-input.gap{font:inherit;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);width:100%;min-height:44px}
-input.gap.correct{border-color:var(--accent);background:var(--as)}
-input.gap.wrong{border-color:var(--bad);background:var(--bs)}
-button.primary{font:inherit;cursor:pointer;border-radius:10px;border:none;background:var(--accent);color:#fff;padding:12px 20px;font-weight:600;min-height:44px}
-button.ghost{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);padding:12px 20px;min-height:44px}
-.row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-.feedback{margin-top:14px;padding:11px 14px;border-radius:10px;font-size:.93rem;line-height:1.45}
-.feedback.ok{background:var(--as)}.feedback.no{background:var(--bs)}
-.score-box{text-align:center;padding:30px 0}
-.score-box .big{font-size:2.8rem;font-weight:700;color:var(--accent)}
-.score-box .sub{color:var(--muted);margin-top:6px}
-.modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.modes button{font:inherit;padding:7px 13px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.88rem;min-height:38px}
-.modes button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.counter{color:var(--muted);font-size:.85rem;margin-bottom:8px}
+button.opt.correct{background:var(--ac2);border-color:var(--accent);font-weight:600}
+button.opt.wrong{background:var(--bad2);border-color:var(--bad)}
+input.gap{font:inherit;font-size:1rem;padding:12px 14px;border-radius:11px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);width:100%;min-height:48px}
+input.gap:focus{outline:none;border-color:var(--accent)}
+input.gap.correct{border-color:var(--accent);background:var(--ac2)}
+input.gap.wrong{border-color:var(--bad);background:var(--bad2)}
 
-/* LESEN */
-.lese-text{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;line-height:1.6;font-size:.97rem}
-.lese-text h3{font-size:1.1rem;margin-bottom:10px;color:var(--accent)}
-.lese-text p{margin-bottom:8px}
-.lese-text .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px}
+/* ── FEEDBACK ── */
+.fb{border-radius:11px;padding:12px 15px;font-size:.92rem;line-height:1.5;margin-top:12px;display:none}
+.fb.ok{background:var(--ac2);border:1px solid var(--accent)}
+.fb.no{background:var(--bad2);border:1px solid var(--bad)}
+.fb .tipp{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:.87rem;color:var(--muted)}
 
-/* SCHREIBEN */
-textarea.essay{font:inherit;width:100%;min-height:180px;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);resize:vertical;line-height:1.55}
-.checklist{list-style:none;display:grid;gap:8px;margin-top:12px}
-.checklist li{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;background:var(--card);border:1px solid var(--border);font-size:.93rem}
-.checklist li .icon{font-size:1.1rem;flex-shrink:0}
+/* ── BUTTONS ── */
+.btn{font:600 .92rem/1 inherit;cursor:pointer;border-radius:11px;padding:12px 22px;min-height:46px;border:none;transition:opacity .15s}
+.btn:hover{opacity:.88}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 
-/* REGELN */
-.rule-section{margin-bottom:28px}
-.rule-section h3{font-size:1rem;font-weight:700;margin-bottom:10px;color:var(--accent);padding-bottom:6px;border-bottom:1px solid var(--border)}
-.rule-section p,.rule-section li{font-size:.95rem;line-height:1.6;margin-bottom:6px}
-.rule-section ul,.rule-section ol{padding-left:20px}
-table.konj{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:.9rem}
-table.konj th,table.konj td{padding:7px 10px;border:1px solid var(--border);text-align:left}
-table.konj th{background:var(--tag);color:var(--tagtxt);font-weight:600}
-table.konj tr:nth-child(even) td{background:var(--bg)}
-.ausl-box{background:var(--tag);border-radius:10px;padding:12px 16px;margin:8px 0}
-.ausl-box b{color:var(--accent)}
-.merke{background:var(--bs);border-radius:10px;padding:11px 15px;margin:8px 0;font-size:.92rem}
-.merke b{color:var(--bad)}
-.tipp{background:var(--as);border-radius:10px;padding:11px 15px;margin:8px 0;font-size:.92rem}
+/* ── SCORE ── */
+.score-card{text-align:center;padding:36px 20px}
+.score-big{font-size:3rem;font-weight:800;color:var(--accent);letter-spacing:-.02em}
+.score-label{color:var(--muted);font-size:.95rem;margin-top:4px}
+.score-msg{margin:16px 0 24px;font-size:1rem;line-height:1.5}
+.stars{font-size:1rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+
+/* ── TABLES ── */
+table.t{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0 14px}
+table.t th,table.t td{padding:8px 10px;border:1px solid var(--border);text-align:left;vertical-align:top}
+table.t th{background:var(--tag-bg);color:var(--tag-txt);font-weight:700}
+table.t tr:nth-child(even) td{background:var(--card2)}
+
+/* ── RULE SECTIONS ── */
+.rs{margin-bottom:26px}
+.rs h3{font-size:.97rem;font-weight:700;color:var(--accent);padding-bottom:7px;border-bottom:1.5px solid var(--border);margin-bottom:12px}
+.rs p,.rs li{font-size:.93rem;line-height:1.65;margin-bottom:6px}
+.rs ul,.rs ol{padding-left:18px}
+.box{border-radius:11px;padding:12px 15px;margin:8px 0;font-size:.91rem;line-height:1.5}
+.box-green{background:var(--ac2);border:1px solid var(--accent)}
+.box-red{background:var(--bad2);border:1px solid var(--bad)}
+.box-gold{background:var(--gold2);border:1px solid var(--gold)}
+
+/* ── SCHNELLZUGRIFF OVERLAY ── */
+.overlay-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.overlay-bg.on{display:flex}
+.overlay-panel{background:var(--card);width:100%;max-width:680px;max-height:82vh;border-radius:18px 18px 0 0;overflow-y:auto;padding:20px 20px 40px;position:relative}
+.overlay-panel h2{font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--accent)}
+.overlay-close{position:absolute;top:14px;right:16px;font:600 .85rem/1 inherit;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer;color:var(--muted)}
+.vocab-cover{position:relative;margin-bottom:12px}
+.vocab-cover .cover-layer{position:absolute;inset:0;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1.5px dashed var(--border);transition:opacity .2s;z-index:2}
+.vocab-cover .cover-layer span{font-size:.85rem;color:var(--muted);font-weight:600;letter-spacing:.03em}
+.vocab-cover.revealed .cover-layer{display:none}
+.ref-btn{font:600 .78rem/1 inherit;padding:7px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
+.ref-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── LESEN ── */
+.lese-txt{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:18px;font-size:.95rem;line-height:1.7}
+.lese-txt h3{font-size:1.05rem;color:var(--accent);margin-bottom:10px}
+.lese-txt .sec{font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:12px 0 4px}
+.lese-txt p{margin-bottom:6px}
+
+/* ── SCHREIBEN ── */
+textarea.essay{font:inherit;width:100%;min-height:160px;padding:13px;border-radius:11px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);resize:vertical;line-height:1.6;font-size:.95rem}
+textarea.essay:focus{outline:none;border-color:var(--accent)}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:10px;background:var(--card);border:1px solid var(--border);font-size:.9rem;margin-bottom:8px}
+.cl-item .ico{font-size:1.05rem;flex-shrink:0;margin-top:1px}
 </style>
 </head>
 <body>
 
-<div class="nav">
-  <button id="nav-quiz" class="active" onclick="showPage('quiz')">🧠 Übung</button>
-  <button id="nav-lesen" onclick="showPage('lesen')">📖 Leseverstehen</button>
-  <button id="nav-schreiben" onclick="showPage('schreiben')">✍️ Schreiben</button>
-  <button id="nav-regeln" onclick="showPage('regeln')">📋 Regeln & Lernen</button>
+<div class="topnav">
+  <button id="tn-quiz" class="on" onclick="nav('quiz')">Übung</button>
+  <button id="tn-lesen" onclick="nav('lesen')">Leseverstehen</button>
+  <button id="tn-schreiben" onclick="nav('schreiben')">Schreiben</button>
+  <button id="tn-regeln" onclick="nav('regeln')">Regeln</button>
 </div>
 
-<!-- ========== QUIZ ========== -->
-<div class="page show" id="page-quiz">
+<!-- ════════════════ QUIZ ════════════════ -->
+<div class="page on" id="page-quiz">
 <div class="wrap">
-  <div class="modes" id="quiz-modes">
-    <button id="m-all" class="active" onclick="setMode('all')">Alles gemischt</button>
-    <button id="m-subj" onclick="setMode('subj')">Subjuntivo</button>
-    <button id="m-vocab" onclick="setMode('vocab')">Vokabular</button>
-    <button id="m-ausl" onclick="setMode('ausl')">Auslöser</button>
+
+  <!-- DIFFICULTY -->
+  <div class="diff-row" id="diff-row">
+    <button class="diff-btn on-easy" id="d-easy" onclick="setDiff('easy')">A Leicht</button>
+    <button class="diff-btn" id="d-medium" onclick="setDiff('medium')">B Mittel</button>
+    <button class="diff-btn" id="d-hard" onclick="setDiff('hard')">C Schwer</button>
   </div>
-  <div class="progress"><div id="bar"></div></div>
-  <div class="counter" id="counter"></div>
-  <div id="quiz-card" class="card">
-    <div class="tag" id="type"></div>
-    <p class="q" id="question"></p>
-    <div id="hint" class="hint" style="display:none"></div>
-    <div id="area"></div>
-    <div id="feedback" class="feedback" style="display:none"></div>
-    <div class="row">
-      <button id="check" class="primary" style="display:none">Prüfen</button>
-      <button id="next" class="primary" style="display:none">Weiter</button>
+
+  <!-- REFERENZ-BUTTON (sichtbar während Übung) -->
+  <div id="ref-bar" style="display:none;margin-bottom:10px">
+    <button class="ref-btn" onclick="openOverlay()">Vokabeln &amp; Regeln nachschlagen</button>
+  </div>
+
+  <!-- CATEGORY GRID -->
+  <div id="cat-screen">
+    <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px">Kategorie wählen:</div>
+    <div class="cat-grid" id="cat-grid"></div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen" style="display:none">
+    <div class="prog-wrap">
+      <div class="prog-bar"><div id="prog-fill"></div></div>
+      <div class="prog-meta"><span id="prog-txt"></span><span id="score-live"></span></div>
+    </div>
+    <button class="btn btn-ghost" style="margin-bottom:12px;font-size:.82rem;padding:8px 14px" onclick="showCats()">← Kategorien</button>
+    <div class="card" id="q-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="badge badge-green" id="q-tag"></span>
+        <span class="badge" id="diff-badge"></span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div id="q-area"></div>
+      <div class="fb" id="q-fb"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-check" style="display:none" onclick="submitGap()">Prüfen</button>
+        <button class="btn btn-primary" id="btn-next" style="display:none" onclick="nextQ()">Weiter →</button>
+        <button class="btn btn-ghost" id="btn-retry" style="display:none" onclick="retryQ()">Nochmal versuchen</button>
+      </div>
     </div>
   </div>
-  <div id="result-box" class="card score-box" style="display:none">
-    <div>Dein Ergebnis</div>
-    <div class="big" id="final-score"></div>
-    <div class="sub" id="final-comment"></div>
-    <div class="row" style="justify-content:center;margin-top:18px">
-      <button class="primary" onclick="startQuiz()">Nochmal</button>
-      <button class="ghost" onclick="showPage('regeln')">Regeln anschauen</button>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen" style="display:none">
+    <div class="card score-card">
+      <div class="stars" id="res-stars"></div>
+      <div class="score-big" id="res-score"></div>
+      <div class="score-label" id="res-label"></div>
+      <div class="score-msg" id="res-msg"></div>
+      <div class="btn-row" style="justify-content:center">
+        <button class="btn btn-primary" onclick="showCats()">Neue Runde</button>
+        <button class="btn btn-ghost" onclick="nav('regeln')">Regeln</button>
+      </div>
     </div>
   </div>
+
 </div>
 </div>
 
-<!-- ========== LESEN ========== -->
+<!-- ════════════════ OVERLAY ════════════════ -->
+<div class="overlay-bg" id="overlay-bg" onclick="closeOverlay(event)">
+  <div class="overlay-panel" id="overlay-panel">
+    <button class="overlay-close" onclick="closeOverlay()">Schließen</button>
+    <h2>Schnellreferenz</h2>
+
+    <div class="rs">
+      <h3>Vokabular U6A</h3>
+      <div class="vocab-cover" id="vocab-cover">
+        <div class="cover-layer" onclick="document.getElementById('vocab-cover').classList.add('revealed')">
+          <span>Tippen zum Aufdecken</span>
+        </div>
+        <table class="t">
+          <tr><th>Spanisch</th><th>Deutsch</th></tr>
+          <tr><td>esperar que + SUBJ.</td><td>hoffen, dass</td></tr>
+          <tr><td>ojalá (que)</td><td>hoffentlich / wenn doch</td></tr>
+          <tr><td>echar de menos a alg.</td><td>jdn. vermissen</td></tr>
+          <tr><td>echarse a reír</td><td>anfangen zu lachen</td></tr>
+          <tr><td>tanto</td><td>so viel / so sehr</td></tr>
+          <tr><td>el turrón (pl. turrones)</td><td>der Turron (Nougat-Gebäck)</td></tr>
+          <tr><td>ser listo/-a</td><td>klug sein</td></tr>
+          <tr><td>estar listo/-a</td><td>fertig sein</td></tr>
+          <tr><td>ser malo/-a</td><td>böse / schlecht sein</td></tr>
+          <tr><td>estar malo/-a</td><td>krank sein</td></tr>
+          <tr><td>ser rico/-a</td><td>reich sein</td></tr>
+          <tr><td>estar rico/-a</td><td>lecker sein</td></tr>
+          <tr><td>ser bueno/-a</td><td>gut (Charakter) sein</td></tr>
+          <tr><td>estar bueno/-a</td><td>gut schmecken / aussehen</td></tr>
+          <tr><td>dar miedo a alg. que + SUBJ.</td><td>jdm. Angst machen, dass</td></tr>
+          <tr><td>tener miedo de que + SUBJ.</td><td>Angst haben, dass</td></tr>
+          <tr><td>quedar con hambre</td><td>hungrig bleiben</td></tr>
+          <tr><td>ser cierto que</td><td>es stimmt / ist wahr, dass</td></tr>
+          <tr><td>llenarse</td><td>sich füllen / satt werden</td></tr>
+          <tr><td>tener los nervios a alg.</td><td>jdm. auf die Nerven gehen</td></tr>
+          <tr><td>regalar a/c a alg.</td><td>jdm. etw. schenken</td></tr>
+          <tr><td>estar loco/-a por</td><td>verrückt sein nach</td></tr>
+          <tr><td>ser tímido/-a</td><td>schüchtern sein</td></tr>
+          <tr><td>el mercadillo de Navidad</td><td>der Weihnachtsmarkt</td></tr>
+          <tr><td>el pan de especias</td><td>der Lebkuchen / Gewürzbrot</td></tr>
+          <tr><td>meterse en a/c</td><td>sich in etw. einmischen</td></tr>
+          <tr><td>la bufanda</td><td>der Schal</td></tr>
+          <tr><td>nevar (e→ie)</td><td>schneien</td></tr>
+          <tr><td>saludar a alg. de parte de alg.</td><td>jdn. von jdm. grüßen</td></tr>
+          <tr><td>viajar</td><td>reisen</td></tr>
+          <tr><td>participar en</td><td>teilnehmen an</td></tr>
+          <tr><td>el intercambio</td><td>der Austausch</td></tr>
+          <tr><td>imaginarse</td><td>sich vorstellen</td></tr>
+          <tr><td>el instituto ideal</td><td>die ideale Schule</td></tr>
+          <tr><td>la comprensión lectora</td><td>das Leseverstehen</td></tr>
+          <tr><td>la expresión escrita</td><td>der schriftliche Ausdruck</td></tr>
+          <tr><td>entender (e→ie)</td><td>verstehen</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="rs">
+      <h3>Auslöser – Kurzübersicht</h3>
+      <table class="t">
+        <tr><th>Spanisch</th><th>Deutsch</th></tr>
+        <tr><td>esperar / querer / desear que</td><td>hoffen / wollen / wünschen, dass</td></tr>
+        <tr><td>alegrarse de que</td><td>sich freuen, dass</td></tr>
+        <tr><td>molestar / sorprender que</td><td>stören / überraschen, dass</td></tr>
+        <tr><td>tener miedo de que</td><td>Angst haben, dass</td></tr>
+        <tr><td>no creer / dudar que</td><td>nicht glauben / bezweifeln, dass</td></tr>
+        <tr><td>es importante / necesario que</td><td>es ist wichtig / nötig, dass</td></tr>
+        <tr><td>es una lástima / no es justo que</td><td>es ist schade / ungerecht, dass</td></tr>
+        <tr><td>ojalá (que)</td><td>hoffentlich / wenn doch</td></tr>
+        <tr><td>para que</td><td>damit / sodass</td></tr>
+      </table>
+    </div>
+
+    <div class="rs">
+      <h3>DISHES – Schnellreferenz</h3>
+      <table class="t">
+        <tr><th>Verb</th><th>yo</th><th>tú</th><th>él</th><th>nosotros</th><th>ellos</th></tr>
+        <tr><td><b>ser</b></td><td>sea</td><td>seas</td><td>sea</td><td>seamos</td><td>sean</td></tr>
+        <tr><td><b>estar</b></td><td>esté</td><td>estés</td><td>esté</td><td>estemos</td><td>estén</td></tr>
+        <tr><td><b>ir</b></td><td>vaya</td><td>vayas</td><td>vaya</td><td>vayamos</td><td>vayan</td></tr>
+        <tr><td><b>haber</b></td><td>haya</td><td>hayas</td><td>haya</td><td>hayamos</td><td>hayan</td></tr>
+        <tr><td><b>dar</b></td><td>dé</td><td>des</td><td>dé</td><td>demos</td><td>den</td></tr>
+        <tr><td><b>saber</b></td><td>sepa</td><td>sepas</td><td>sepa</td><td>sepamos</td><td>sepan</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ LESEN ════════════════ -->
 <div class="page" id="page-lesen">
 <div class="wrap">
-  <div class="lese-text">
-    <h3>Un colegio de 25 estrellas 🌟</h3>
-    <p style="color:var(--muted);font-size:.85rem;margin-bottom:12px">📖 Lee el texto en español y contesta las preguntas en alemán.</p>
-    <div class="label">Estancias lingüísticas – República Checa</div>
+  <div class="lese-txt">
+    <h3>Un colegio de 25 estrellas</h3>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px">Lee el texto y contesta las preguntas — las respuestas son en alemán.</p>
+    <div class="sec">Estancias lingüísticas – República Checa</div>
     <p>Simón y Zuzana (República Checa): «Durante una semana, por la mañana o por la tarde, tenemos 4 horas de inglés. Después hacemos esquí. Cada día, un grupo escribe un periódico en inglés. En Europa hay muchas formas de aprender lenguas extranjeras.»</p>
-    <div class="label" style="margin-top:10px">Calificaciones polacas – Polonia</div>
+    <div class="sec">Calificaciones polacas – Polonia</div>
     <p>Mercin (Polonia): «Nos califican del 1 al 6, sistema francés, sobre 20 es lo mejor. Pero aquí no tenemos examen final al terminar la secundaria. Lo más importante son las notas que tenemos durante el curso.»</p>
-    <div class="label" style="margin-top:10px">Horarios al estilo italiano – Italia</div>
-    <p>Chiara (Italia): «Tenemos 5 horas de clase los lunes, martes, miércoles, jueves y viernes. Vamos al colegio por la mañana y por las tardes hacemos los deberes. Las asignaturas son más o menos las mismas en todos los países, pero los horarios son muy diferentes.»</p>
-    <div class="label" style="margin-top:10px">Tardes a la alemana – Alemania / Eslovaquia</div>
+    <div class="sec">Horarios al estilo italiano – Italia</div>
+    <p>Chiara (Italia): «Tenemos 5 horas de clase de lunes a viernes. Vamos al colegio por la mañana y por las tardes hacemos los deberes. Las asignaturas son más o menos las mismas en todos los países, pero los horarios son muy diferentes.»</p>
+    <div class="sec">Tardes a la alemana – Alemania / Eslovaquia</div>
     <p>Ulrike (Alemania): «Después de clase, hago teatro y voy a una coral. A las 13:30 h hacemos los deberes, estudiamos idiomas y hacemos música.» Katerina (Eslovaquia): «Por las tardes hago deporte e informática.»</p>
-    <div class="label" style="margin-top:10px">Informática en versión británica – Reino Unido</div>
-    <p>Emma (Reino Unido): «Nosotros no tenemos clases de informática. Utilizamos las herramientas de TIC para preparar una exposición en clase. Casi todos los países europeos utilizan TIC en sus escuelas, pero los países del norte son los que más las utilizan.»</p>
+    <div class="sec">Informática en versión británica – Reino Unido</div>
+    <p>Emma (Reino Unido): «Nosotros no tenemos clases de informática separadas. Utilizamos las herramientas de TIC para preparar una exposición en clase. Casi todos los países europeos utilizan TIC en sus escuelas, pero los países del norte son los que más las utilizan.»</p>
   </div>
-
-  <div id="lese-q"></div>
-  <div id="lese-result" style="display:none" class="card score-box">
-    <div>Leseverstehen-Ergebnis</div>
-    <div class="big" id="lese-score"></div>
-    <div class="sub" id="lese-comment"></div>
-    <div class="row" style="justify-content:center;margin-top:16px">
-      <button class="primary" onclick="startLesen()">Nochmal</button>
+  <div id="lese-q-area"></div>
+  <div id="lese-result" style="display:none" class="card score-card">
+    <div class="stars" id="lese-stars"></div>
+    <div class="score-big" id="lese-score"></div>
+    <div class="score-label">Comprensión Lectora</div>
+    <div class="score-msg" id="lese-msg"></div>
+    <div class="btn-row" style="justify-content:center">
+      <button class="btn btn-primary" onclick="startLesen()">Nochmal</button>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ========== SCHREIBEN ========== -->
+<!-- ════════════════ SCHREIBEN ════════════════ -->
 <div class="page" id="page-schreiben">
 <div class="wrap">
-  <div class="card" style="margin-bottom:16px">
-    <div class="tag">Expresión Escrita</div>
-    <p class="q">¿Cómo te imaginas un instituto ideal? Escribe un texto de 80–120 Wörter.</p>
-    <p style="color:var(--muted);font-size:.9rem;margin-top:6px">Benutze: ojalá que + Subj., espero que + Subj., (no) me gusta(ría) que + Subj., para que + Subj.</p>
-  </div>
 
-  <textarea class="essay" id="essay" placeholder="Escribe aquí tu texto …"></textarea>
-
-  <div class="row">
-    <button class="primary" onclick="checkEssay()">Checkliste prüfen</button>
-    <button class="ghost" onclick="document.getElementById('essay').value=''">Löschen</button>
-  </div>
-
-  <div id="checklist-out" style="display:none;margin-top:16px">
-    <div class="card">
-      <b>Checkliste</b>
-      <ul class="checklist" id="cl-list"></ul>
-    </div>
-    <div class="card" style="margin-top:12px">
-      <b>Hilfreiche Ausdrücke</b>
-      <ul style="padding-left:18px;margin-top:8px;line-height:1.9;font-size:.95rem">
-        <li>Ojalá que el instituto <b>tenga</b> muchos ordenadores.</li>
-        <li>Espero que los profes <b>sean</b> simpáticos.</li>
-        <li>Me gustaría que no <b>hubiera</b> muchos deberes.</li>
-        <li>Quiero que las clases <b>empiecen</b> tarde.</li>
-        <li>Es importante que los alumnos <b>puedan</b> elegir las asignaturas.</li>
-        <li>No me gusta que los profes <b>pongan</b> demasiados exámenes.</li>
-        <li>Prefiero que el instituto <b>tenga</b> una piscina y un gimnasio.</li>
-        <li>Ojalá que todo el mundo <b>se lleve</b> bien.</li>
-      </ul>
+  <!-- THEMA-AUSWAHL -->
+  <div id="schreib-themen">
+    <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px">Thema wählen:</div>
+    <div style="display:grid;gap:10px">
+      <button class="cat-btn" onclick="selectThema(0)">
+        <span class="cat-name">Das ideale Institut</span>
+        <span class="cat-sub">¿Cómo te imaginas un instituto ideal?</span>
+      </button>
+      <button class="cat-btn" onclick="selectThema(1)">
+        <span class="cat-name">Reisen und Austausch</span>
+        <span class="cat-sub">¿Te gustaría participar en un intercambio? ¿Por qué?</span>
+      </button>
+      <button class="cat-btn" onclick="selectThema(2)">
+        <span class="cat-name">Schulalltag im Vergleich</span>
+        <span class="cat-sub">¿Cómo es tu colegio comparado con los de otros países?</span>
+      </button>
+      <button class="cat-btn" onclick="selectThema(3)">
+        <span class="cat-name">Wünsche und Hoffnungen</span>
+        <span class="cat-sub">¿Qué esperas del futuro? ¿Qué ojalá que pase?</span>
+      </button>
     </div>
   </div>
+
+  <!-- SCHREIBBEREICH -->
+  <div id="schreib-area" style="display:none">
+    <div class="card" style="margin-bottom:14px">
+      <span class="badge badge-green" style="margin-bottom:10px">Expresión Escrita</span>
+      <div class="q-text" id="schreib-frage"></div>
+      <p style="color:var(--muted);font-size:.88rem">80–120 Wörter. Benutze: <b>ojalá que, espero que, me gustaría que, para que</b> + Subjuntivo.</p>
+    </div>
+    <button class="btn btn-ghost" style="margin-bottom:12px;font-size:.82rem;padding:8px 14px" onclick="document.getElementById('schreib-themen').style.display='block';document.getElementById('schreib-area').style.display='none';document.getElementById('cl-out').style.display='none'">← Themen</button>
+    <textarea class="essay" id="essay" placeholder="Escribe aquí tu texto en español …"></textarea>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="checkEssay()">Checkliste prüfen</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('essay').value='';document.getElementById('cl-out').style.display='none'">Löschen</button>
+    </div>
+    <div id="cl-out" style="display:none;margin-top:16px">
+      <div class="card" style="margin-bottom:12px">
+        <b style="display:block;margin-bottom:10px">Checkliste</b>
+        <div id="cl-list"></div>
+      </div>
+      <div class="card">
+        <b style="display:block;margin-bottom:10px">Hilfreiche Sätze</b>
+        <ul id="schreib-hilfe" style="padding-left:18px;line-height:2;font-size:.92rem"></ul>
+      </div>
+    </div>
+  </div>
+
 </div>
 </div>
 
-<!-- ========== REGELN ========== -->
+<!-- ════════════════ REGELN ════════════════ -->
 <div class="page" id="page-regeln">
 <div class="wrap">
 
-  <div class="rule-section">
-    <h3>1. Die Endungen des Presente de Subjuntivo</h3>
-    <p>Grundregel: <b>-ar-Verben</b> bekommen die Endungen mit <b>-e-</b>, <b>-er/-ir-Verben</b> mit <b>-a-</b>.</p>
-    <table class="konj">
-      <tr><th>Pronomen</th><th>hablar (-ar)</th><th>comer (-er)</th><th>vivir (-ir)</th></tr>
-      <tr><td>yo</td><td>habl<b>e</b></td><td>com<b>a</b></td><td>viv<b>a</b></td></tr>
-      <tr><td>tú</td><td>habl<b>es</b></td><td>com<b>as</b></td><td>viv<b>as</b></td></tr>
-      <tr><td>él/ella/Ud.</td><td>habl<b>e</b></td><td>com<b>a</b></td><td>viv<b>a</b></td></tr>
-      <tr><td>nosotros</td><td>habl<b>emos</b></td><td>com<b>amos</b></td><td>viv<b>amos</b></td></tr>
-      <tr><td>vosotros</td><td>habl<b>éis</b></td><td>com<b>áis</b></td><td>viv<b>áis</b></td></tr>
-      <tr><td>ellos/Uds.</td><td>habl<b>en</b></td><td>com<b>an</b></td><td>viv<b>an</b></td></tr>
-    </table>
-    <div class="tipp">💡 <b>Trick:</b> Die yo-Form des Presente de Indicativo (YOIGO-Verben) bildet den ganzen Subjuntivo-Stamm. z.B. <i>tengo → teng-</i> → tenга, tengas …</div>
-  </div>
+<div class="rs">
+  <h3>1. Endungen – Presente de Subjuntivo</h3>
+  <div class="box box-green">-ar-Verben → Endungen mit <b>-e-</b> &nbsp;|&nbsp; -er/-ir-Verben → Endungen mit <b>-a-</b></div>
+  <table class="t">
+    <tr><th>Pronomen</th><th>hablar (-ar)</th><th>comer (-er)</th><th>vivir (-ir)</th></tr>
+    <tr><td>yo</td><td>habl<b>e</b></td><td>com<b>a</b></td><td>viv<b>a</b></td></tr>
+    <tr><td>tú</td><td>habl<b>es</b></td><td>com<b>as</b></td><td>viv<b>as</b></td></tr>
+    <tr><td>él/ella/Ud.</td><td>habl<b>e</b></td><td>com<b>a</b></td><td>viv<b>a</b></td></tr>
+    <tr><td>nosotros</td><td>habl<b>emos</b></td><td>com<b>amos</b></td><td>viv<b>amos</b></td></tr>
+    <tr><td>vosotros</td><td>habl<b>éis</b></td><td>com<b>áis</b></td><td>viv<b>áis</b></td></tr>
+    <tr><td>ellos/Uds.</td><td>habl<b>en</b></td><td>com<b>an</b></td><td>viv<b>an</b></td></tr>
+  </table>
+  <div class="box box-gold"><b>YOIGO-Trick:</b> Die yo-Form des Indikativs bildet den Subjuntivo-Stamm.<br>tengo → teng- → <i>tenga, tengas, tenga …</i> &nbsp;|&nbsp; hago → hag- → <i>haga …</i> &nbsp;|&nbsp; pongo → pong- → <i>ponga …</i></div>
+</div>
 
-  <div class="rule-section">
-    <h3>2. Unregelmäßige Verben (auswendig lernen!)</h3>
-    <table class="konj">
-      <tr><th>Infinitiv</th><th>yo</th><th>tú</th><th>él</th><th>nosotros</th><th>vosotros</th><th>ellos</th></tr>
-      <tr><td><b>ser</b></td><td>sea</td><td>seas</td><td>sea</td><td>seamos</td><td>seáis</td><td>sean</td></tr>
-      <tr><td><b>estar</b></td><td>esté</td><td>estés</td><td>esté</td><td>estemos</td><td>estéis</td><td>estén</td></tr>
-      <tr><td><b>ir</b></td><td>vaya</td><td>vayas</td><td>vaya</td><td>vayamos</td><td>vayáis</td><td>vayan</td></tr>
-      <tr><td><b>haber</b></td><td>haya</td><td>hayas</td><td>haya</td><td>hayamos</td><td>hayáis</td><td>hayan</td></tr>
-      <tr><td><b>saber</b></td><td>sepa</td><td>sepas</td><td>sepa</td><td>sepamos</td><td>sepáis</td><td>sepan</td></tr>
-      <tr><td><b>ver</b></td><td>vea</td><td>veas</td><td>vea</td><td>veamos</td><td>veáis</td><td>vean</td></tr>
-      <tr><td><b>dar</b></td><td>dé</td><td>des</td><td>dé</td><td>demos</td><td>deis</td><td>den</td></tr>
-    </table>
-    <div class="merke">🔴 <b>Merke:</b> DISHES = <b>D</b>ar, <b>I</b>r, <b>S</b>er, <b>H</b>aber, <b>E</b>star, <b>S</b>aber → diese 6 Verben sind vollständig unregelmäßig!</div>
-  </div>
+<div class="rs">
+  <h3>2. Unregelmäßige Verben – DISHES (auswendig!)</h3>
+  <table class="t">
+    <tr><th>Verb</th><th>yo</th><th>tú</th><th>él</th><th>nosotros</th><th>vosotros</th><th>ellos</th></tr>
+    <tr><td><b>dar</b></td><td>dé</td><td>des</td><td>dé</td><td>demos</td><td>deis</td><td>den</td></tr>
+    <tr><td><b>ir</b></td><td>vaya</td><td>vayas</td><td>vaya</td><td>vayamos</td><td>vayáis</td><td>vayan</td></tr>
+    <tr><td><b>ser</b></td><td>sea</td><td>seas</td><td>sea</td><td>seamos</td><td>seáis</td><td>sean</td></tr>
+    <tr><td><b>haber</b></td><td>haya</td><td>hayas</td><td>haya</td><td>hayamos</td><td>hayáis</td><td>hayan</td></tr>
+    <tr><td><b>estar</b></td><td>esté</td><td>estés</td><td>esté</td><td>estemos</td><td>estéis</td><td>estén</td></tr>
+    <tr><td><b>saber</b></td><td>sepa</td><td>sepas</td><td>sepa</td><td>sepamos</td><td>sepáis</td><td>sepan</td></tr>
+  </table>
+  <div class="box box-red"><b>D-I-S-H-E-S</b> = Dar · Ir · Ser · Haber · Estar · Saber – diese 6 komplett auswendig lernen!</div>
+</div>
 
-  <div class="rule-section">
-    <h3>3. Stammvokalwechsel im Subjuntivo</h3>
-    <table class="konj">
-      <tr><th>Typ</th><th>Infinitiv</th><th>yo</th><th>tú</th><th>nosotros</th><th>ellos</th></tr>
-      <tr><td>e → ie</td><td>pensar</td><td>piens<b>e</b></td><td>piens<b>es</b></td><td>pens<b>emos</b></td><td>piens<b>en</b></td></tr>
-      <tr><td>o → ue</td><td>poder</td><td>pued<b>a</b></td><td>pued<b>as</b></td><td>pod<b>amos</b></td><td>pued<b>an</b></td></tr>
-      <tr><td>u → ue</td><td>jugar</td><td>juegu<b>e</b></td><td>juegu<b>es</b></td><td>juguemos</td><td>juegu<b>en</b></td></tr>
-      <tr><td>e → i</td><td>preferir</td><td>prefier<b>a</b></td><td>prefier<b>as</b></td><td>prefir<b>amos</b></td><td>prefier<b>an</b></td></tr>
-      <tr><td>o/e → ue/ie</td><td>dormir</td><td>duerm<b>a</b></td><td>duerm<b>as</b></td><td>durm<b>amos</b></td><td>duerm<b>an</b></td></tr>
-    </table>
-    <p><b>Verben auf -car, -gar, -zar</b> ändern die Schreibweise:</p>
-    <table class="konj">
-      <tr><th>Infinitiv</th><th>Änderung</th><th>yo</th><th>tú …</th></tr>
-      <tr><td>buscar</td><td>c → qu</td><td>busque</td><td>busques …</td></tr>
-      <tr><td>llegar</td><td>g → gu</td><td>llegue</td><td>llegues …</td></tr>
-      <tr><td>cruzar</td><td>z → c</td><td>cruce</td><td>cruces …</td></tr>
-    </table>
-  </div>
+<div class="rs">
+  <h3>3. Stammvokalwechsel im Subjuntivo</h3>
+  <table class="t">
+    <tr><th>Typ</th><th>Verb</th><th>yo</th><th>tú</th><th>nosotros ⚠️</th><th>ellos</th></tr>
+    <tr><td>e → ie</td><td>pensar</td><td>piense</td><td>pienses</td><td>pensemos</td><td>piensen</td></tr>
+    <tr><td>o → ue</td><td>poder</td><td>pueda</td><td>puedas</td><td>podamos</td><td>puedan</td></tr>
+    <tr><td>u → ue</td><td>jugar</td><td>juegue</td><td>juegues</td><td>juguemos</td><td>jueguen</td></tr>
+    <tr><td>e → i</td><td>preferir</td><td>prefiera</td><td>prefieras</td><td>prefiramos</td><td>prefieran</td></tr>
+    <tr><td>o/e → ue/u</td><td>dormir</td><td>duerma</td><td>duermas</td><td>durmamos ⚠️</td><td>duerman</td></tr>
+  </table>
+  <div class="box box-gold"><b>Hinweis – nosotros/vosotros:</b> behalten bei e→ie und o→ue den ursprünglichen Stammvokal: <i>pensemos, podamos</i>. Bei e→i und o/e→ue/u wechseln sie doch: <i>prefiramos, durmamos</i>.</div>
+</div>
 
-  <div class="rule-section">
-    <h3>4. C → ZC-Verben (yo-Form mit zc)</h3>
-    <p>Verben wie <i>conocer, entender</i>: yo-Form → conozco → Subjuntivo: <b>conozca, conozcas …</b></p>
-    <p>Weitere: <i>parecer → parezca</i>, <i>conducir → conduzca</i></p>
-  </div>
+<div class="rs">
+  <h3>4. Rechtschreibregeln (-car/-gar/-zar)</h3>
+  <table class="t">
+    <tr><th>Verb</th><th>Regel</th><th>yo</th><th>tú</th><th>ellos</th></tr>
+    <tr><td>buscar</td><td>c → qu vor e</td><td>busque</td><td>busques</td><td>busquen</td></tr>
+    <tr><td>llegar</td><td>g → gu vor e</td><td>llegue</td><td>llegues</td><td>lleguen</td></tr>
+    <tr><td>cruzar</td><td>z → c vor e</td><td>cruce</td><td>cruces</td><td>crucen</td></tr>
+    <tr><td>tocar</td><td>c → qu vor e</td><td>toque</td><td>toques</td><td>toquen</td></tr>
+    <tr><td>pagar</td><td>g → gu vor e</td><td>pague</td><td>pagues</td><td>paguen</td></tr>
+  </table>
+</div>
 
-  <div class="rule-section">
-    <h3>5. Wann benutzt man den Subjuntivo? (Auslöser)</h3>
-    <table class="konj">
-      <tr><th>Kategorie</th><th>Spanisch</th><th>Deutsch</th><th>Beispiel</th></tr>
-      <tr><td rowspan="3"><b>Wünsche &amp; Hoffnungen</b></td><td>esperar que</td><td>hoffen, dass</td><td><i>Espero que vengas.</i></td></tr>
-      <tr><td>querer que</td><td>wollen, dass</td><td><i>Quiero que estudies más.</i></td></tr>
-      <tr><td>desear que</td><td>wünschen, dass</td><td><i>Deseo que seas feliz.</i></td></tr>
-      <tr><td rowspan="6"><b>Emotionen</b></td><td>alegrarse de que</td><td>sich freuen, dass</td><td><i>Me alegra que estés aquí.</i></td></tr>
-      <tr><td>sentir que / lamentar que</td><td>bedauern, dass</td><td><i>Siento que no puedas venir.</i></td></tr>
-      <tr><td>tener miedo de que</td><td>Angst haben, dass</td><td><i>Tengo miedo de que llegue tarde.</i></td></tr>
-      <tr><td>molestar que</td><td>stören / nerven, dass</td><td><i>Me molesta que haga ruido.</i></td></tr>
-      <tr><td>sorprender que</td><td>überraschen, dass</td><td><i>Me sorprende que no lo sepa.</i></td></tr>
-      <tr><td>dar miedo que</td><td>Angst machen, dass</td><td><i>Me da miedo que no haya tiempo.</i></td></tr>
-      <tr><td rowspan="3"><b>Zweifel &amp; Verneinung</b></td><td>no creer que</td><td>nicht glauben, dass</td><td><i>No creo que venga.</i></td></tr>
-      <tr><td>dudar que</td><td>bezweifeln, dass</td><td><i>Dudo que sea verdad.</i></td></tr>
-      <tr><td>no pensar que</td><td>nicht denken, dass</td><td><i>No pienso que sea fácil.</i></td></tr>
-      <tr><td rowspan="6"><b>Unpersönliche Ausdrücke</b></td><td>es importante que</td><td>es ist wichtig, dass</td><td><i>Es importante que estudies.</i></td></tr>
-      <tr><td>es necesario que</td><td>es ist nötig, dass</td><td><i>Es necesario que llegues puntual.</i></td></tr>
-      <tr><td>es una lástima que</td><td>es ist schade, dass</td><td><i>Es una lástima que no puedas venir.</i></td></tr>
-      <tr><td>no es justo que</td><td>es ist nicht gerecht, dass</td><td><i>No es justo que haya tantos deberes.</i></td></tr>
-      <tr><td>es posible que</td><td>es ist möglich, dass</td><td><i>Es posible que haga frío.</i></td></tr>
-      <tr><td>es triste que</td><td>es ist traurig, dass</td><td><i>Es triste que no te alegres.</i></td></tr>
-      <tr><td><b>Ojalá (que)</b></td><td>ojalá (que)</td><td>hoffentlich / wenn doch</td><td><i>Ojalá que haga sol mañana.</i></td></tr>
-      <tr><td><b>Finalsatz</b></td><td>para que</td><td>damit / sodass</td><td><i>Te lo digo para que lo sepas.</i></td></tr>
-      <tr><td><b>Vorschlag</b></td><td>proponer que</td><td>vorschlagen, dass</td><td><i>Te propongo que vayamos juntos.</i></td></tr>
-    </table>
-    <div class="merke">🔴 <b>Achtung – gleiche Subjekte:</b> Wenn beide Subjekte gleich sind → <b>Infinitiv statt Subjuntivo!</b><br>
-    ✅ <i>Espero que tú <b>vengas</b>.</i> (verschiedene Subjekte: yo / tú) → Subjuntivo<br>
-    ✅ <i>Espero <b>venir</b>.</i> (gleiches Subjekt: yo / yo) → Infinitiv</div>
-    <div class="tipp">💡 <b>Merkhilfe Ojalá:</b> „Ojalá" kommt aus dem Arabischen (in shaa Allah – so Gott will) und steht <b>immer</b> mit Subjuntivo, auch ohne „que": <i>¡Ojalá llegues pronto!</i></div>
-  </div>
+<div class="rs">
+  <h3>5. Auslöser des Subjuntivo – komplett mit Übersetzung</h3>
+  <table class="t">
+    <tr><th>Kategorie</th><th>Spanisch</th><th>Deutsch</th><th>Beispiel</th></tr>
+    <tr><td rowspan="4"><b>Wünsche &amp; Hoffnungen</b></td><td>esperar que</td><td>hoffen, dass</td><td><i>Espero que vengas.</i></td></tr>
+    <tr><td>querer que</td><td>wollen, dass</td><td><i>Quiero que estudies.</i></td></tr>
+    <tr><td>desear que</td><td>wünschen, dass</td><td><i>Deseo que seas feliz.</i></td></tr>
+    <tr><td>preferir que</td><td>vorziehen, dass</td><td><i>Prefiero que vengas mañana.</i></td></tr>
+    <tr><td rowspan="7"><b>Emotionen</b></td><td>alegrarse de que</td><td>sich freuen, dass</td><td><i>Me alegra que estés aquí.</i></td></tr>
+    <tr><td>sentir que / lamentar que</td><td>bedauern, dass</td><td><i>Siento que no puedas venir.</i></td></tr>
+    <tr><td>tener miedo de que</td><td>Angst haben, dass</td><td><i>Tengo miedo de que llueva.</i></td></tr>
+    <tr><td>molestar que</td><td>stören / nerven, dass</td><td><i>Me molesta que hagas ruido.</i></td></tr>
+    <tr><td>sorprender que</td><td>überraschen, dass</td><td><i>Me sorprende que no lo sepa.</i></td></tr>
+    <tr><td>dar miedo que</td><td>Angst machen, dass</td><td><i>Me da miedo que no haya tiempo.</i></td></tr>
+    <tr><td>estar contento de que</td><td>froh sein, dass</td><td><i>Estoy contento de que vengas.</i></td></tr>
+    <tr><td rowspan="4"><b>Zweifel &amp; Verneinung</b></td><td>no creer que</td><td>nicht glauben, dass</td><td><i>No creo que venga.</i></td></tr>
+    <tr><td>dudar que</td><td>bezweifeln, dass</td><td><i>Dudo que sea verdad.</i></td></tr>
+    <tr><td>no pensar que</td><td>nicht denken, dass</td><td><i>No pienso que sea fácil.</i></td></tr>
+    <tr><td>negar que</td><td>verneinen/leugnen, dass</td><td><i>Niega que haya pasado algo.</i></td></tr>
+    <tr><td rowspan="8"><b>Unpersönlich</b></td><td>es importante que</td><td>es ist wichtig, dass</td><td><i>Es importante que estudies.</i></td></tr>
+    <tr><td>es necesario que</td><td>es ist nötig, dass</td><td><i>Es necesario que llegues puntual.</i></td></tr>
+    <tr><td>es una lástima que</td><td>es ist schade, dass</td><td><i>Es una lástima que no puedas.</i></td></tr>
+    <tr><td>no es justo que</td><td>es ist nicht gerecht, dass</td><td><i>No es justo que trabajes tanto.</i></td></tr>
+    <tr><td>es posible que</td><td>es ist möglich, dass</td><td><i>Es posible que haga frío.</i></td></tr>
+    <tr><td>es triste que</td><td>es ist traurig, dass</td><td><i>Es triste que no te alegres.</i></td></tr>
+    <tr><td>es bueno que</td><td>es ist gut, dass</td><td><i>Es bueno que hagas deporte.</i></td></tr>
+    <tr><td>es increíble que</td><td>es ist unglaublich, dass</td><td><i>Es increíble que no lo sepas.</i></td></tr>
+    <tr><td><b>Ojalá</b></td><td>ojalá (que)</td><td>hoffentlich / wenn doch</td><td><i>Ojalá que haga sol mañana.</i></td></tr>
+    <tr><td><b>Zweck</b></td><td>para que</td><td>damit / sodass</td><td><i>Te lo digo para que lo sepas.</i></td></tr>
+    <tr><td><b>Vorschlag</b></td><td>proponer que</td><td>vorschlagen, dass</td><td><i>Propongo que vayamos juntos.</i></td></tr>
+    <tr><td><b>Prohibition</b></td><td>prohibir que</td><td>verbieten, dass</td><td><i>Prohíben que se fume aquí.</i></td></tr>
+  </table>
+  <div class="box box-red"><b>Gleiche Subjekte → Infinitiv:</b><br>
+  ✅ <i>Espero que tú <b>vengas</b>.</i> (ich hoffe, du kommst) → Subjuntivo<br>
+  ✅ <i>Espero <b>venir</b>.</i> (ich hoffe zu kommen) → Infinitiv<br><br>
+  <b>Achtung:</b> <i>creer que</i> (positiv) → Indikativ! Nur <i>no creer que</i> → Subjuntivo.</div>
+  <div class="box box-gold"><b>Hinweis – Ojalá:</b> kommt aus dem Arabischen (in shaa Allah). Es steht <b>immer</b> mit Subjuntivo – auch ohne „que": <i>¡Ojalá llegues pronto!</i></div>
+</div>
 
-  <div class="rule-section">
-    <h3>6. Vokabular zum Auswendiglernen (U6A)</h3>
-    <table class="konj">
-      <tr><th>Spanisch</th><th>Deutsch</th></tr>
-      <tr><td>esperar que + SUBJ.</td><td>hoffen, dass</td></tr>
-      <tr><td>ojalá (que)</td><td>hoffentlich / wenn doch</td></tr>
-      <tr><td>echar de menos a alg.</td><td>jdn. vermissen</td></tr>
-      <tr><td>echarse a reír</td><td>anfangen zu lachen</td></tr>
-      <tr><td>tanto</td><td>so viel / so sehr</td></tr>
-      <tr><td>el turrón (pl. turrones)</td><td>der Turron (Nougat-Gebäck)</td></tr>
-      <tr><td>ser listo/-a</td><td>klug sein</td></tr>
-      <tr><td>estar listo/-a</td><td>fertig sein</td></tr>
-      <tr><td>ser malo/-a</td><td>böse / schlecht sein</td></tr>
-      <tr><td>estar malo/-a</td><td>krank sein</td></tr>
-      <tr><td>ser rico/-a</td><td>reich sein</td></tr>
-      <tr><td>estar rico/-a</td><td>lecker sein</td></tr>
-      <tr><td>ser bueno/-a</td><td>gut sein</td></tr>
-      <tr><td>estar bueno/-a</td><td>gut schmecken / gut aussehen</td></tr>
-      <tr><td>dar miedo a alg. que + SUBJ.</td><td>jdm. Angst machen, dass</td></tr>
-      <tr><td>tener miedo de que + SUBJ.</td><td>Angst haben, dass</td></tr>
-      <tr><td>quedar con hambre</td><td>hungrig bleiben</td></tr>
-      <tr><td>ser cierto que</td><td>es stimmt / ist wahr, dass</td></tr>
-      <tr><td>llenarse</td><td>sich füllen / satt werden</td></tr>
-      <tr><td>tener los nervios a alg.</td><td>jdm. auf die Nerven gehen</td></tr>
-      <tr><td>regalar a/c a alg.</td><td>jdm. etw. schenken</td></tr>
-      <tr><td>por + TIEMPO</td><td>für + Zeitangabe</td></tr>
-      <tr><td>estar loco/-a por</td><td>verrückt sein nach</td></tr>
-      <tr><td>ser tímido/-a</td><td>schüchtern sein</td></tr>
-      <tr><td>el mercadillo de Navidad</td><td>der Weihnachtsmarkt</td></tr>
-      <tr><td>el pan de especias</td><td>der Lebkuchen / Gewürzbrot</td></tr>
-      <tr><td>meterse en a/c</td><td>sich in etw. einmischen</td></tr>
-      <tr><td>la bufanda</td><td>der Schal</td></tr>
-      <tr><td>nevar (e>ie)</td><td>schneien</td></tr>
-      <tr><td>estar bueno/-a</td><td>gut schmecken</td></tr>
-      <tr><td>saludar a alg. de parte de alg.</td><td>jdn. grüßen von jdm.</td></tr>
-      <tr><td>viajar</td><td>reisen</td></tr>
-      <tr><td>participar en</td><td>teilnehmen an</td></tr>
-      <tr><td>el intercambio</td><td>der Austausch</td></tr>
-      <tr><td>imaginarse</td><td>sich vorstellen</td></tr>
-      <tr><td>el instituto ideal</td><td>die ideale Schule</td></tr>
-      <tr><td>la comprensión lectora</td><td>das Leseverstehen</td></tr>
-      <tr><td>la expresión escrita</td><td>der schriftliche Ausdruck</td></tr>
-      <tr><td>entender (e>ie)</td><td>verstehen</td></tr>
-    </table>
-    <div class="tipp">💡 <b>Ser vs. Estar + Adjektiv:</b> Die Bedeutung kann sich komplett ändern! Lerne immer beide Varianten zusammen.</div>
-  </div>
+<div class="rs">
+  <h3>6. Ser vs. Estar + Adjektiv – Bedeutungsunterschied!</h3>
+  <table class="t">
+    <tr><th>Adjektiv</th><th>ser + …</th><th>estar + …</th></tr>
+    <tr><td><b>listo/-a</b></td><td>klug sein</td><td>fertig sein</td></tr>
+    <tr><td><b>malo/-a</b></td><td>böse / schlecht sein</td><td>krank sein</td></tr>
+    <tr><td><b>rico/-a</b></td><td>reich sein</td><td>lecker sein</td></tr>
+    <tr><td><b>bueno/-a</b></td><td>gut (Charakter) sein</td><td>gut schmecken / gut aussehen</td></tr>
+    <tr><td><b>aburrido/-a</b></td><td>langweilig (als Person) sein</td><td>sich langweilen</td></tr>
+    <tr><td><b>vivo/-a</b></td><td>schlau / lebendig sein</td><td>am Leben sein</td></tr>
+  </table>
+</div>
 
-  <div class="rule-section">
-    <h3>7. Lernstrategie: Was muss ich auswendig können?</h3>
-    <ol style="line-height:2">
-      <li>Die <b>6 DISHES-Verben</b> vollständig auswendig (ser, estar, ir, haber, dar, saber)</li>
-      <li>Die <b>Endungen</b> für -ar und -er/-ir (beide Reihen)</li>
-      <li>Den <b>YOIGO-Trick</b> anwenden können (tener→teng→tenga …)</li>
-      <li>Mindestens <b>5 Auslöser</b> für den Subjuntivo nennen können</li>
-      <li>Den Unterschied <b>ser vs. estar</b> bei listo/malo/rico/bueno</li>
-      <li>Die Vokabeln aus Spalte 1 der Tabelle auf Deutsch übersetzen</li>
-    </ol>
-  </div>
+<div class="rs">
+  <h3>7. Vokabular U6A</h3>
+  <table class="t">
+    <tr><th>Spanisch</th><th>Deutsch</th></tr>
+    <tr><td>esperar que + SUBJ.</td><td>hoffen, dass</td></tr>
+    <tr><td>ojalá (que)</td><td>hoffentlich / wenn doch</td></tr>
+    <tr><td>echar de menos a alg.</td><td>jdn. vermissen</td></tr>
+    <tr><td>echarse a reír</td><td>anfangen zu lachen</td></tr>
+    <tr><td>tanto</td><td>so viel / so sehr</td></tr>
+    <tr><td>el turrón (pl. turrones)</td><td>der Turron (Nougat-Gebäck)</td></tr>
+    <tr><td>ser listo/-a</td><td>klug sein</td></tr>
+    <tr><td>estar listo/-a</td><td>fertig sein</td></tr>
+    <tr><td>ser malo/-a</td><td>böse / schlecht sein</td></tr>
+    <tr><td>estar malo/-a</td><td>krank sein</td></tr>
+    <tr><td>ser rico/-a</td><td>reich sein</td></tr>
+    <tr><td>estar rico/-a</td><td>lecker sein</td></tr>
+    <tr><td>ser bueno/-a</td><td>gut (Charakter) sein</td></tr>
+    <tr><td>estar bueno/-a</td><td>gut schmecken / gut aussehen</td></tr>
+    <tr><td>dar miedo a alg. que + SUBJ.</td><td>jdm. Angst machen, dass</td></tr>
+    <tr><td>tener miedo de que + SUBJ.</td><td>Angst haben, dass</td></tr>
+    <tr><td>quedar con hambre</td><td>hungrig bleiben</td></tr>
+    <tr><td>ser cierto que</td><td>es stimmt / ist wahr, dass</td></tr>
+    <tr><td>llenarse</td><td>sich füllen / satt werden</td></tr>
+    <tr><td>tener los nervios a alg.</td><td>jdm. auf die Nerven gehen</td></tr>
+    <tr><td>regalar a/c a alg.</td><td>jdm. etw. schenken</td></tr>
+    <tr><td>estar loco/-a por</td><td>verrückt sein nach</td></tr>
+    <tr><td>ser tímido/-a</td><td>schüchtern sein</td></tr>
+    <tr><td>el mercadillo de Navidad</td><td>der Weihnachtsmarkt</td></tr>
+    <tr><td>el pan de especias</td><td>der Lebkuchen / Gewürzbrot</td></tr>
+    <tr><td>meterse en a/c</td><td>sich in etw. einmischen</td></tr>
+    <tr><td>la bufanda</td><td>der Schal</td></tr>
+    <tr><td>nevar (e→ie)</td><td>schneien</td></tr>
+    <tr><td>saludar a alg. de parte de alg.</td><td>jdn. von jdm. grüßen</td></tr>
+    <tr><td>viajar</td><td>reisen</td></tr>
+    <tr><td>participar en</td><td>teilnehmen an</td></tr>
+    <tr><td>el intercambio</td><td>der Austausch</td></tr>
+    <tr><td>imaginarse</td><td>sich vorstellen</td></tr>
+    <tr><td>el instituto ideal</td><td>die ideale Schule</td></tr>
+    <tr><td>la comprensión lectora</td><td>das Leseverstehen</td></tr>
+    <tr><td>la expresión escrita</td><td>der schriftliche Ausdruck</td></tr>
+    <tr><td>entender (e→ie)</td><td>verstehen</td></tr>
+  </table>
+</div>
+
+<div class="rs">
+  <h3>8. Was musst du auswendig können?</h3>
+  <ol style="line-height:2.1;font-size:.93rem">
+    <li>Die <b>6 DISHES-Verben</b> vollständig (ser, estar, ir, haber, dar, saber)</li>
+    <li>Die <b>Endungen</b> für -ar und -er/-ir komplett</li>
+    <li>Den <b>YOIGO-Trick</b> anwenden (tener→tenga, hacer→haga, poner→ponga, decir→diga, salir→salga, venir→venga)</li>
+    <li>Stammvokalwechsel bei <b>pensar, poder, preferir, dormir</b></li>
+    <li>Rechtschreibregel bei <b>-car, -gar, -zar</b></li>
+    <li>Mindestens <b>3 Auslöser</b> aus jeder Kategorie</li>
+    <li><b>Ser vs. estar</b> bei listo/malo/rico/bueno</li>
+    <li>Vokabeln: alle Wörter aus der Tabelle auf beiden Seiten</li>
+  </ol>
+</div>
 
 </div>
 </div>
 
-<!-- ========== JS ========== -->
+<!-- ════════════════ SCRIPT ════════════════ -->
 <script>
-// ---- NAVIGATION ----
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('show');
-  document.getElementById('nav-' + id).classList.add('active');
+// ─── NAVIGATION ───
+function nav(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.topnav button').forEach(b=>b.classList.remove('on'));
+  document.getElementById('page-'+id).classList.add('on');
+  document.getElementById('tn-'+id).classList.add('on');
 }
 
-// ---- QUIZ DATA ----
-const SUBJ_Q = [
-  {tag:"Subjuntivo Formen",q:"Espero que tú ___ mañana. (venir)",answer:"vengas",hint:"venir: yo vengo → veng → venga, vengas …",expl:"Nach 'Espero que' kommt Subjuntivo: vengas."},
-  {tag:"Subjuntivo Formen",q:"Me alegra que ustedes ___ aquí. (estar)",answer:"estén",hint:"estar ist DISHES-unregelmäßig: esté, estés …",expl:"'Me alegra que' + Subjuntivo: estén."},
-  {tag:"Subjuntivo Formen",q:"Tengo miedo de que el tren ___ tarde. (llegar)",answer:"llegue",hint:"llegar: g → gu vor -e im Subjuntivo",expl:"Richtig: llegue. (llegar: -gar → -gue)"},
-  {tag:"Subjuntivo Formen",q:"Me molesta que mi hermana siempre ___ tanto ruido. (hacer)",answer:"haga",hint:"hacer: yo hago → hag → haga",expl:"'Me molesta que' + Subjuntivo: haga."},
-  {tag:"Subjuntivo Formen",q:"Te propongo que ___ a la piscina. (ir, nosotros)",answer:"vayamos",hint:"ir: vaya, vayas, vaya, vayamos, vayáis, vayan",expl:"Nosotros-Form von ir im Subjuntivo: vayamos."},
-  {tag:"Subjuntivo Formen",q:"No creo que Lola ___ hoy al cine. (ir)",answer:"vaya",hint:"ir ist DISHES-unregelmäßig: vaya …",expl:"'No creo que' + Subjuntivo: vaya."},
-  {tag:"Subjuntivo Formen",q:"Es una lástima que hoy no ___ sol. (hacer)",answer:"haga",hint:"hacer: yo hago → haga",expl:"'Es una lástima que' + Subjuntivo: haga."},
-  {tag:"Subjuntivo Formen",q:"Espero que mis padres me ___ una bufanda. (regalar)",answer:"regalen",hint:"-ar-Verben: -e, -es, -e, -emos, -éis, -en",expl:"Subjuntivo von regalar (ellos): regalen."},
-  {tag:"Subjuntivo Formen",q:"Juan espera que su hermana ___ razón. (tener)",answer:"tenga",hint:"tener: yo tengo → teng → tenga",expl:"'Espera que' + Subjuntivo: tenga."},
-  {tag:"Subjuntivo Formen",q:"Ojalá que mañana ___ ir a la piscina. (poder, yo)",answer:"pueda",hint:"poder: o → ue. Subjuntivo yo: pueda",expl:"Ojalá que + Subjuntivo: pueda."},
-  {tag:"Subjuntivo Formen",q:"Ojalá que el profe me ___ al menos un aprobado. (poner)",answer:"ponga",hint:"poner: yo pongo → pong → ponga",expl:"YOIGO: pongo → ponga."},
-  {tag:"Subjuntivo Formen",q:"Es importante que tú ___ todo. (decir)",answer:"digas",hint:"decir: yo digo → dig → diga, digas …",expl:"'Es importante que' + Subjuntivo: digas."},
-  {tag:"Subjuntivo Formen",q:"A Ernesto le da miedo que en el examen ___ muchas preguntas difíciles. (haber)",answer:"haya",hint:"haber ist DISHES-unregelmäßig: haya …",expl:"haber im Subjuntivo: haya."},
-  {tag:"Subjuntivo Formen",q:"Quiero que pronto ___ de llover. (parar)",answer:"pare",hint:"-ar: -e, -es, -e …",expl:"Subjuntivo von parar: pare."},
-  {tag:"Subjuntivo Formen",q:"La abuela le da una cámara a Jorge para que ___ fotos del viaje. (tomar)",answer:"tome",hint:"-ar: -e, -es, -e …",expl:"'para que' + Subjuntivo: tome."},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que yo ___ (conocer)",answer:"conozca",hint:"conocer: yo conozco → conozc → conozca",expl:"C→ZC-Verb: conozca."},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que vosotros ___ (hablar)",answer:"habléis",hint:"-ar + vosotros: -éis",expl:"habléis"},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que ellos ___ (ser)",answer:"sean",hint:"ser: sea, seas, sea, seamos, seáis, sean",expl:"sean"},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que nosotros ___ (ir)",answer:"vayamos",hint:"ir: vaya, vayas, vaya, vayamos …",expl:"vayamos"},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que tú ___ (saber)",answer:"sepas",hint:"saber: sepa, sepas, sepa …",expl:"sepas"},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que yo ___ (dar)",answer:"dé",hint:"dar: dé, des, dé, demos, deis, den",expl:"dé – mit Akzent!"},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que ella ___ (preferir)",answer:"prefiera",hint:"preferir: e → ie (außer nosotros/vosotros)",expl:"prefiera"},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que nosotros ___ (dormir)",answer:"durmamos",hint:"dormir o→ue/u: nosotros bleibt u: durmamos",expl:"durmamos"},
-  {tag:"Subjuntivo Formen",q:"Ergänze: que tú ___ (buscar)",answer:"busques",hint:"buscar: c → qu vor e",expl:"busques"},
-  // Schwerere Fragen
-  {tag:"Subjuntivo – Schwer",q:"Es una lástima que tú no ___ venir a la fiesta. (poder)",answer:"puedas",hint:"poder: o→ue, außer nosotros/vosotros. -er-Verb → -a-Endung",expl:"poder im Subjuntivo (tú): puedas."},
-  {tag:"Subjuntivo – Schwer",q:"Quiero que vosotros ___ más. (leer)",answer:"leáis",hint:"-er + vosotros: -áis",expl:"leer → leáis. Achtung: zwei Vokale zusammen."},
-  {tag:"Subjuntivo – Schwer",q:"No es justo que ellos ___ tanto dinero. (tener)",answer:"tengan",hint:"tener: tengo → teng → tenga, tengas, tenga, tengamos, tengáis, tengan",expl:"tengan – YOIGO-Stamm + -an (ellos, -er-Verb)"},
-  {tag:"Subjuntivo – Schwer",q:"Me alegra que tú me ___ la verdad. (decir)",answer:"digas",hint:"decir: digo → dig → diga, digas …",expl:"digas – YOIGO-Stamm dig- + -as"},
-  {tag:"Subjuntivo – Schwer",q:"Espero que el tiempo ___ bueno mañana. (hacer)",answer:"haga",hint:"hacer: hago → hag → haga",expl:"haga – YOIGO-Stamm."},
-  {tag:"Subjuntivo – Schwer",q:"Es necesario que nosotros ___ más ejercicio. (hacer)",answer:"hagamos",hint:"hacer: hago → hag → nosotros: hagamos",expl:"hagamos – YOIGO-Stamm hag- + -amos"},
-  {tag:"Subjuntivo – Schwer",q:"No creo que ella ___ razón. (tener)",answer:"tenga",hint:"tener: tengo → teng → tenga",expl:"tenga. Nach 'no creo que' steht immer Subjuntivo."},
-  {tag:"Subjuntivo – Schwer",q:"Para que vosotros ___ bien, necesitáis descansar. (estar)",answer:"estéis",hint:"estar ist DISHES-unregelmäßig: estéis für vosotros",expl:"estéis – estar ist vollständig unregelmäßig."},
-  {tag:"Subjuntivo – Schwer",q:"Me molesta que siempre ___ tan tarde. (llegar, tú)",answer:"llegues",hint:"llegar: g→gu + -es (tú, -ar-Verb)",expl:"llegues – Rechtschreibregel: g→gu vor e."},
-  {tag:"Subjuntivo – Schwer",q:"Es posible que mañana ___ (nevar)",answer:"nieve",hint:"nevar: e→ie, Stammvokalwechsel. -ar-Verb → -e-Endung",expl:"nieve – e→ie Wechsel + -e (yo/él-Form)"},
-  {tag:"Subjuntivo – Schwer",q:"Ojalá que vosotros ___ la solución. (encontrar)",answer:"encontréis",hint:"encontrar: o→ue (außer nosotros/vosotros) → vosotros: encontréis",expl:"encontréis – vosotros bleibt beim Stammvokal o."},
-  {tag:"Subjuntivo – Schwer",q:"Dudo que ellos ___ tan listos. (ser)",answer:"sean",hint:"ser ist DISHES-unregelmäßig: sea, seas, sea, seamos, seáis, sean",expl:"sean – nach 'dudar que' steht Subjuntivo."},
-];
-
-const VOCAB_Q = [
-  {tag:"Vokabular",q:"echar de menos a alg.",options:["jdn. vermissen","jdn. anrufen","jdm. helfen","jdn. verjagen"],answer:0},
-  {tag:"Vokabular",q:"echarse a reír",options:["anfangen zu lachen","aufhören zu lachen","anfangen zu weinen","sich schämen"],answer:0},
-  {tag:"Vokabular",q:"estar loco/-a por",options:["verrückt sein nach","sich ärgern über","Lust haben auf","wütend sein auf"],answer:0},
-  {tag:"Vokabular",q:"ser tímido/-a",options:["schüchtern sein","mutig sein","fleißig sein","faul sein"],answer:0},
-  {tag:"Vokabular",q:"el mercadillo de Navidad",options:["der Weihnachtsmarkt","der Flohmarkt","das Weihnachtsgeschenk","die Krippe"],answer:0},
-  {tag:"Vokabular",q:"el pan de especias",options:["der Lebkuchen","das Gewürzbrot","der Krapfen","der Honigkuchen"],answer:0},
-  {tag:"Vokabular",q:"nevar (e>ie)",options:["schneien","regnen","frieren","wehen"],answer:0},
-  {tag:"Vokabular",q:"la bufanda",options:["der Schal","die Mütze","die Jacke","der Handschuh"],answer:0},
-  {tag:"Vokabular",q:"estar malo/-a",options:["krank sein","böse sein","eine schlechte Note haben","sich langweilen"],answer:0},
-  {tag:"Vokabular",q:"ser rico/-a",options:["reich sein","lecker sein","berühmt sein","fleißig sein"],answer:0},
-  {tag:"Vokabular",q:"ser listo/-a",options:["klug sein","fertig sein","schnell sein","ordentlich sein"],answer:0},
-  {tag:"Vokabular",q:"estar listo/-a",options:["fertig sein","klug sein","müde sein","ruhig sein"],answer:0},
-  {tag:"Vokabular",q:"estar rico/-a",options:["lecker sein","reich sein","satt sein","gut aussehen"],answer:0},
-  {tag:"Vokabular",q:"entender (e>ie) a/c",options:["verstehen","vergessen","erklären","wiederholen"],answer:0},
-  {tag:"Vokabular",q:"ojalá (que)",options:["hoffentlich / wenn doch","vielleicht","bestimmt","trotzdem"],answer:0},
-  {tag:"Vokabular",q:"regalar a/c a alg.",options:["jdm. etw. schenken","jdm. etw. leihen","etw. kaufen","jdn. überraschen"],answer:0},
-  {tag:"Vokabular",q:"saludar a alg. de parte de alg.",options:["jdn. von jdm. grüßen","jdn. anrufen","jdm. schreiben","jdn. besuchen"],answer:0},
-  {tag:"Vokabular",q:"quedar con hambre",options:["hungrig bleiben","Hunger bekommen","satt werden","essen gehen"],answer:0},
-  {tag:"Vokabular",q:"ser cierto que",options:["es stimmt, dass","es wäre schön, wenn","es ist unklar, ob","es ist schade, dass"],answer:0},
-  {tag:"Vokabular",q:"tener miedo de que + SUBJ.",options:["Angst haben, dass","hoffen, dass","sich freuen, dass","glauben, dass"],answer:0},
-  {tag:"Vokabular",q:"participar en",options:["teilnehmen an","mitmachen","sich anmelden bei","gewinnen"],answer:0},
-  {tag:"Vokabular",q:"el intercambio",options:["der Austausch","die Reise","die Prüfung","der Kurs"],answer:0},
-  {tag:"Vokabular",q:"imaginarse",options:["sich vorstellen","sich erinnern","sich ärgern","sich beeilen"],answer:0},
-  {tag:"Vokabular",q:"la comprensión lectora",options:["das Leseverstehen","das Hörverstehen","die Grammatikprüfung","der Aufsatz"],answer:0},
-  {tag:"Vokabular",q:"la expresión escrita",options:["der schriftliche Ausdruck","das Diktat","die Übersetzung","das Gespräch"],answer:0},
-  {tag:"Vokabular",q:"meterse en a/c",options:["sich in etw. einmischen","etw. lernen","etw. verstecken","irgendwo einsteigen"],answer:0},
-  {tag:"Vokabular",q:"tanto",options:["so viel / so sehr","trotzdem","allerdings","bisher"],answer:0},
-  {tag:"Vokabular",q:"llenarse",options:["sich füllen / satt werden","sich leeren","voll sein","aufhören"],answer:0},
-  {tag:"Vokabular",q:"el turrón",options:["eine Nougat-Süßigkeit","der Weihnachtsbaum","der Glühwein","das Gebäck"],answer:0},
-  {tag:"Vokabular",q:"dar miedo a alg. que + SUBJ.",options:["jdm. Angst machen, dass","jdm. gefallen, dass","jdm. helfen, dass","jdn. zwingen, dass"],answer:0},
-];
-
-const AUSL_Q = [
-  {tag:"Auslöser",q:"Nach welchem Ausdruck folgt IMMER der Subjuntivo ohne 'que'?",options:["ojalá","espero","quiero","creo"],answer:0},
-  {tag:"Auslöser",q:"'Me molesta que ella ___' – Was folgt hier?",options:["Subjuntivo","Infinitiv","Indikativ","Partizip"],answer:0},
-  {tag:"Auslöser",q:"'Laura espera tener razón.' Warum steht hier ein Infinitiv (nicht Subjuntivo)?",options:["Beide Subjekte sind gleich","Es gibt keinen Auslöser","Das Verb esperar braucht keinen Subj.","Es ist eine Verneinung"],answer:0},
-  {tag:"Auslöser",q:"Welcher Satz ist FALSCH?",options:["Espero que yo vengo mañana.","Espero que tú vengas mañana.","Espero venir mañana.","Me alegra que estés aquí."],answer:0},
-  {tag:"Auslöser",q:"'Es justo que …' – Welcher Modus folgt?",options:["Subjuntivo","Indikativ","Infinitiv","Konditional"],answer:0},
-  {tag:"Auslöser",q:"'Te propongo que …' löst aus:",options:["Subjuntivo","Indikativ","Infinitiv","gar nichts"],answer:0},
-  {tag:"Auslöser",q:"'No creo que ella …' – Welcher Modus folgt?",options:["Subjuntivo","Indikativ","beides möglich","Infinitiv"],answer:0},
-  {tag:"Auslöser",q:"'La abuela le regala una cámara ___ tome fotos.' – Welche Konjunktion und welcher Modus?",options:["para que + Subjuntivo","porque + Indikativo","si + Subjuntivo","cuando + Indikativo"],answer:0},
-  {tag:"Auslöser",q:"Was bedeutet 'molestar que' auf Deutsch?",options:["stören / nerven, dass","mögen, dass","bemerken, dass","bezahlen, dass"],answer:0},
-  {tag:"Auslöser",q:"Was bedeutet 'es una lástima que' auf Deutsch?",options:["es ist schade, dass","es ist schön, dass","es ist langweilig, dass","es ist wichtig, dass"],answer:0},
-  {tag:"Auslöser",q:"Was bedeutet 'alegrarse de que' auf Deutsch?",options:["sich freuen, dass","traurig sein, dass","überrascht sein, dass","hoffen, dass"],answer:0},
-  {tag:"Auslöser",q:"Was bedeutet 'dudar que' auf Deutsch?",options:["bezweifeln, dass","wissen, dass","sagen, dass","glauben, dass"],answer:0},
-  {tag:"Auslöser",q:"Welcher Satz braucht Subjuntivo?",options:["Me alegra que tú estés aquí.","Creo que tú estás aquí.","Sé que tú estás aquí.","Veo que tú estás aquí."],answer:0,expl:"'me alegra que' ist ein Emotions-Auslöser → Subjuntivo. Bei 'creo/sé/veo que' steht Indikativ."},
-  {tag:"Auslöser",q:"'Espero que ella ___ médica.' – Welche Form ist richtig?",options:["sea (Subjuntivo)","es (Indikativo)","será (Futuro)","sería (Konditional)"],answer:0},
-  {tag:"Auslöser",q:"Was bedeutet 'no es justo que' auf Deutsch?",options:["es ist nicht gerecht, dass","es ist klar, dass","es ist wahr, dass","es ist nicht möglich, dass"],answer:0},
-  {tag:"Auslöser",q:"'Me sorprende que él no ___ nada.' – Was folgt?",options:["sepa (Subjuntivo)","sabe (Indikativo)","sabrá (Futuro)","sabría (Konditional)"],answer:0},
-  {tag:"Auslöser",q:"Warum steht in 'Quiero aprender español.' kein Subjuntivo?",options:["Gleiches Subjekt → Infinitiv","querer löst keinen Subjuntivo aus","Es fehlt das 'que'","Es ist ein Hauptsatz"],answer:0},
-  {tag:"Auslöser",q:"Welcher Ausdruck löst KEINEN Subjuntivo aus?",options:["Creo que ella viene.","Es posible que ella venga.","Me alegra que ella venga.","Ojalá que ella venga."],answer:0,expl:"'Creo que' (positiv) + Indikativ. Nur 'no creo que' → Subjuntivo."},
-  {tag:"Auslöser",q:"Was bedeutet 'es necesario que' auf Deutsch?",options:["es ist nötig, dass","es ist gut, dass","es ist seltsam, dass","es ist sicher, dass"],answer:0},
-];
-
-// ---- QUIZ LOGIC ----
-let mode = 'all', queue = [], idx = 0, score = 0, answered = false;
-
-function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
-
-function shuffleOpts(item){
-  const cor=item.options[item.answer];
-  const opts=shuffle(item.options);
-  return {...item,options:opts,answer:opts.indexOf(cor)};
+// ─── OVERLAY ───
+function openOverlay(){document.getElementById('overlay-bg').classList.add('on');}
+function closeOverlay(e){
+  if(!e||e.target===document.getElementById('overlay-bg')||!e.target.closest('.overlay-panel')){
+    document.getElementById('overlay-bg').classList.remove('on');
+    // Abdeckung beim nächsten Öffnen wieder zurücksetzen
+    const vc=document.getElementById('vocab-cover');
+    if(vc) vc.classList.remove('revealed');
+  }
 }
 
-function setMode(m){
-  mode=m;
-  document.querySelectorAll('#quiz-modes button').forEach(b=>b.classList.remove('active'));
-  document.getElementById('m-'+m).classList.add('active');
-  startQuiz();
+// ─── DATA ───
+// difficulty: 1=easy, 2=medium, 3=hard
+// cat: category key
+const QDB = [
+  // === SUBJUNTIVO: REGULÄRE FORMEN ===
+  {cat:'subj-reg',diff:1,kind:'gap',q:'Ergänze: que yo ___ (hablar)',answer:'hable',hint:'-ar-Verben: -e, -es, -e, -emos, -éis, -en. Yo-Form: -e',expl:'hable'},
+  {cat:'subj-reg',diff:1,kind:'gap',q:'Ergänze: que tú ___ (comer)',answer:'comas',hint:'-er-Verben: -a, -as, -a, -amos, -áis, -an. Tú-Form: -as',expl:'comas'},
+  {cat:'subj-reg',diff:1,kind:'gap',q:'Ergänze: que nosotros ___ (vivir)',answer:'vivamos',hint:'-ir-Verben: nosotros: -amos',expl:'vivamos'},
+  {cat:'subj-reg',diff:1,kind:'gap',q:'Ergänze: que ellos ___ (hablar)',answer:'hablen',hint:'-ar + ellos: -en',expl:'hablen'},
+  {cat:'subj-reg',diff:1,kind:'mc',q:'Welche Form ist richtig? – que tú ___ (beber)',options:['bebas','bebes','beba','beban'],answer:0,hint:'-er + tú: -as',expl:'bebas – tú-Form der -er-Verben im Subjuntivo.'},
+  {cat:'subj-reg',diff:1,kind:'mc',q:'Welche Form ist richtig? – que ella ___ (trabajar)',options:['trabaje','trabaja','trabajen','trabajes'],answer:0,hint:'-ar + él/ella: -e',expl:'trabaje – él/ella-Form der -ar-Verben.'},
+  {cat:'subj-reg',diff:2,kind:'gap',q:'Ergänze: que vosotros ___ (escribir)',answer:'escribáis',hint:'-ir + vosotros: -áis',expl:'escribáis'},
+  {cat:'subj-reg',diff:2,kind:'gap',q:'Espero que mis padres me ___ una bufanda. (regalar)',answer:'regalen',hint:'-ar + ellos: -en',expl:'regalen'},
+  {cat:'subj-reg',diff:2,kind:'gap',q:'Quiero que tú ___ más. (leer)',answer:'leas',hint:'-er + tú: -as',expl:'leas'},
+  {cat:'subj-reg',diff:2,kind:'mc',q:'Me molesta que vosotros ___ tanto ruido. (hacer) – YOIGO!',options:['hagáis','hacéis','hagan','haced'],answer:0,hint:'hacer: hago → hag- + -áis (vosotros)',expl:'hagáis – YOIGO-Stamm hag- + vosotros-Endung -áis.'},
+  {cat:'subj-reg',diff:3,kind:'gap',q:'Es necesario que nosotros ___ más ejercicio. (hacer)',answer:'hagamos',hint:'hacer: hago → hag- → hagamos',expl:'hagamos'},
+  {cat:'subj-reg',diff:3,kind:'gap',q:'No es justo que ellos ___ tanto dinero. (tener)',answer:'tengan',hint:'tener: tengo → teng- → tengan (ellos)',expl:'tengan'},
+  {cat:'subj-reg',diff:3,kind:'gap',q:'Para que vosotros ___ bien, necesitáis descansar. (estar) – DISHES!',answer:'estéis',hint:'estar ist DISHES-unregelmäßig: estéis für vosotros',expl:'estéis'},
+  {cat:'subj-reg',diff:3,kind:'mc',q:'Welcher Satz ist grammatisch korrekt?',options:['Espero que tú vengas mañana.','Espero que tú vienes mañana.','Espero tú vengas mañana.','Espero que tú vengas mañana sin que.'],answer:0,hint:'Nach esperar que + zwei verschiedene Subjekte → Subjuntivo',expl:'Espero que tú vengas. – Auslöser + que + Subjuntivo.'},
+
+  // === SUBJUNTIVO: UNREGELMÄSSIGE (DISHES) ===
+  {cat:'subj-irr',diff:1,kind:'mc',q:'Que yo ___ (ser)',options:['sea','soy','seré','sería'],answer:0,hint:'ser ist DISHES-unregelmäßig: sea, seas, sea …',expl:'sea – ser gehört zu DISHES.'},
+  {cat:'subj-irr',diff:1,kind:'mc',q:'Que ella ___ (estar)',options:['esté','está','estará','estaría'],answer:0,hint:'estar ist DISHES-unregelmäßig: esté, estés, esté …',expl:'esté'},
+  {cat:'subj-irr',diff:1,kind:'gap',q:'Ergänze: que nosotros ___ (ir)',answer:'vayamos',hint:'ir: vaya, vayas, vaya, vayamos, vayáis, vayan',expl:'vayamos'},
+  {cat:'subj-irr',diff:1,kind:'gap',q:'Ergänze: que tú ___ (saber)',answer:'sepas',hint:'saber: sepa, sepas, sepa, sepamos, sepáis, sepan',expl:'sepas'},
+  {cat:'subj-irr',diff:2,kind:'gap',q:'Ojalá que mañana ___ sol. (hacer) – YOIGO!',answer:'haga',hint:'hacer: yo hago → hag- → haga',expl:'haga'},
+  {cat:'subj-irr',diff:2,kind:'gap',q:'Ergänze: que yo ___ (dar)',answer:'dé',hint:'dar: dé, des, dé, demos, deis, den – Achtung Akzent!',expl:'dé – mit Akzent, um es von "de" (Präposition) zu unterscheiden.'},
+  {cat:'subj-irr',diff:2,kind:'mc',q:'Que ellos ___ (ir)',options:['vayan','van','irán','irían'],answer:0,hint:'ir: vayan für ellos/ellas',expl:'vayan'},
+  {cat:'subj-irr',diff:2,kind:'gap',q:'No creo que ella ___ razón. (tener)',answer:'tenga',hint:'tener: tengo → teng- → tenga',expl:'tenga'},
+  {cat:'subj-irr',diff:3,kind:'gap',q:'Dudo que ellos ___ tan listos. (ser)',answer:'sean',hint:'ser: sea, seas, sea, seamos, seáis, sean',expl:'sean'},
+  {cat:'subj-irr',diff:3,kind:'mc',q:'Que vosotros ___ (saber)',options:['sepáis','sabéis','sabréis','sabríais'],answer:0,hint:'saber: sepáis für vosotros',expl:'sepáis'},
+  {cat:'subj-irr',diff:3,kind:'gap',q:'Me alegra que tú me ___ la verdad. (decir)',answer:'digas',hint:'decir: digo → dig- → digas',expl:'digas'},
+  {cat:'subj-irr',diff:3,kind:'gap',q:'A Ernesto le da miedo que ___ muchas preguntas difíciles. (haber)',answer:'haya',hint:'haber ist DISHES-unregelmäßig: haya',expl:'haya'},
+
+  // === SUBJUNTIVO: STAMMVOKALWECHSEL ===
+  {cat:'subj-stem',diff:1,kind:'mc',q:'Que yo ___ (pensar)',options:['piense','pense','pensé','pienso'],answer:0,hint:'pensar: e→ie (außer nosotros/vosotros)',expl:'piense – e→ie Stammvokalwechsel.'},
+  {cat:'subj-stem',diff:1,kind:'mc',q:'Que tú ___ (poder)',options:['puedas','podas','puedes','podes'],answer:0,hint:'poder: o→ue, -er-Verb → -as (tú)',expl:'puedas'},
+  {cat:'subj-stem',diff:2,kind:'gap',q:'Ojalá que mañana ___ ir a la piscina. (poder, yo)',answer:'pueda',hint:'poder: o→ue. Yo-Form: pueda',expl:'pueda'},
+  {cat:'subj-stem',diff:2,kind:'gap',q:'Ergänze: que ella ___ (preferir)',answer:'prefiera',hint:'preferir: e→ie (außer nosotros/vosotros)',expl:'prefiera'},
+  {cat:'subj-stem',diff:2,kind:'mc',q:'Que nosotros ___ (pensar) – Achtung Ausnahme!',options:['pensemos','piensemos','piensamos','pensamos'],answer:0,hint:'nosotros/vosotros behalten bei e→ie den Stammvokal!',expl:'pensemos – nosotros behält das -e-.'},
+  {cat:'subj-stem',diff:2,kind:'gap',q:'Es posible que mañana ___ (nevar)',answer:'nieve',hint:'nevar: e→ie. -ar-Verb → -e (yo/él-Form)',expl:'nieve'},
+  {cat:'subj-stem',diff:3,kind:'gap',q:'Ergänze: que nosotros ___ (dormir) – Achtung!',answer:'durmamos',hint:'dormir: o→ue, ABER nosotros: o→u → durmamos',expl:'durmamos – Ausnahme: nosotros/vosotros wechseln bei o→ue zu u.'},
+  {cat:'subj-stem',diff:3,kind:'gap',q:'Ojalá que vosotros ___ la solución. (encontrar)',answer:'encontréis',hint:'encontrar: o→ue (außer vosotros/nosotros) → encontréis',expl:'encontréis – vosotros bleibt beim Stammvokal o.'},
+  {cat:'subj-stem',diff:3,kind:'mc',q:'Que ellos ___ (repetir) – e→i Typ',options:['repitan','repiten','repetirán','repetiría'],answer:0,hint:'repetir: e→i in allen Personen außer nosotros/vosotros: repita, repitas, repita, … repitan',expl:'repitan'},
+  {cat:'subj-stem',diff:3,kind:'gap',q:'Quiero que tú ___ antes de salir. (vestirse)',answer:'te vistas',hint:'vestir: e→i. -ir-Verb reflexiv: te vistas',expl:'te vistas – e→i Wechsel, reflexiv.'},
+
+  // === SUBJUNTIVO: RECHTSCHREIBUNG ===
+  {cat:'subj-spell',diff:1,kind:'mc',q:'Que yo ___ (buscar)',options:['busque','buscé','busca','busqué'],answer:0,hint:'buscar: c→qu vor e',expl:'busque – c→qu Regel.'},
+  {cat:'subj-spell',diff:1,kind:'mc',q:'Que tú ___ (llegar)',options:['llegues','lleges','llegas','llegaras'],answer:0,hint:'llegar: g→gu vor e',expl:'llegues – g→gu Regel.'},
+  {cat:'subj-spell',diff:2,kind:'gap',q:'Me sorprende que tú ___ tan tarde. (llegar)',answer:'llegues',hint:'llegar: g→gu + -es (tú, -ar-Verb)',expl:'llegues'},
+  {cat:'subj-spell',diff:2,kind:'gap',q:'Espero que tú ___ la guitarra. (tocar)',answer:'toques',hint:'tocar: c→qu vor e + -es (tú)',expl:'toques'},
+  {cat:'subj-spell',diff:2,kind:'mc',q:'Que ella ___ la calle. (cruzar)',options:['cruce','cruzé','cruza','crucé'],answer:0,hint:'cruzar: z→c vor e',expl:'cruce – z→c Regel.'},
+  {cat:'subj-spell',diff:3,kind:'gap',q:'Ojalá que ellos ___ el dinero. (pagar)',answer:'paguen',hint:'pagar: g→gu + -en (ellos)',expl:'paguen'},
+  {cat:'subj-spell',diff:3,kind:'gap',q:'Es importante que tú ___ los deberes. (empezar)',answer:'empieces',hint:'empezar: e→ie UND z→c vor e',expl:'empieces – doppelte Änderung: Stammvokal e→ie und z→c.'},
+
+  // === AUSLÖSER: WÜNSCHE & HOFFNUNGEN ===
+  {cat:'ausl-wish',diff:1,kind:'mc',q:'Was bedeutet "esperar que"?',options:['hoffen, dass','wissen, dass','sagen, dass','denken, dass'],answer:0,hint:'esperar = hoffen/erwarten',expl:'esperar que = hoffen, dass → löst immer Subjuntivo aus.'},
+  {cat:'ausl-wish',diff:1,kind:'mc',q:'Was bedeutet "querer que"?',options:['wollen, dass','können, dass','müssen, dass','dürfen, dass'],answer:0,hint:'querer = wollen/lieben',expl:'querer que = wollen, dass'},
+  {cat:'ausl-wish',diff:1,kind:'mc',q:'"Espero que ella ___ mañana." – Welcher Modus?',options:['Subjuntivo','Indikativo','Infinitivo','Futuro'],answer:0,hint:'esperar que = Auslöser → Subjuntivo',expl:'Nach esperar que kommt immer Subjuntivo.'},
+  {cat:'ausl-wish',diff:2,kind:'mc',q:'Was bedeutet "preferir que"?',options:['vorziehen, dass','vergessen, dass','verbieten, dass','bemerken, dass'],answer:0,hint:'preferir = vorziehen',expl:'preferir que = vorziehen, dass → Subjuntivo'},
+  {cat:'ausl-wish',diff:2,kind:'mc',q:'Was bedeutet "desear que"?',options:['wünschen, dass','wissen, dass','denken, dass','verbieten, dass'],answer:0,hint:'desear = wünschen',expl:'desear que = wünschen, dass'},
+  {cat:'ausl-wish',diff:2,kind:'mc',q:'Welcher Satz ist korrekt für "Ich will, dass du kommst"?',options:['Quiero que vengas.','Quiero que vienes.','Quiero venir.','Quiero que tú viene.'],answer:0,hint:'querer que + Subjuntivo',expl:'Quiero que vengas. – querer que löst Subjuntivo aus.'},
+  {cat:'ausl-wish',diff:3,kind:'mc',q:'Warum steht hier Infinitiv: "Prefiero venir mañana."?',options:['Gleiches Subjekt: yo/yo','prefiero löst keinen Subj. aus','Es fehlt das que','Es ist verneint'],answer:0,hint:'Gleiche Subjekte → Infinitiv statt Subjuntivo',expl:'Prefiero venir – ich (yo) möchte lieber kommen (yo) → gleiches Subjekt → Infinitiv.'},
+  {cat:'ausl-wish',diff:3,kind:'mc',q:'"Propongo que nosotros ___ al parque." – Welche Form?',options:['vayamos','vamos','iremos','iríamos'],answer:0,hint:'proponer que + Subjuntivo. ir: vayamos (nosotros)',expl:'vayamos – proponer löst Subjuntivo aus, ir ist DISHES.'},
+
+  // === AUSLÖSER: EMOTIONEN ===
+  {cat:'ausl-emo',diff:1,kind:'mc',q:'Was bedeutet "molestar que"?',options:['stören, dass','mögen, dass','überraschen, dass','freuen, dass'],answer:0,hint:'molestar = stören, nerven',expl:'molestar que = stören, dass → Subjuntivo'},
+  {cat:'ausl-emo',diff:1,kind:'mc',q:'Was bedeutet "alegrarse de que"?',options:['sich freuen, dass','sich ärgern, dass','sich wundern, dass','sich schämen, dass'],answer:0,hint:'alegrar = erfreuen',expl:'alegrarse de que = sich freuen, dass'},
+  {cat:'ausl-emo',diff:1,kind:'mc',q:'"Me molesta que ella ___ tanto ruido." – Welche Form von hacer?',options:['haga','hace','hará','haría'],answer:0,hint:'molestar que + Subjuntivo. hacer: hago → haga',expl:'haga – Emotionsauslöser + YOIGO-Verb'},
+  {cat:'ausl-emo',diff:2,kind:'mc',q:'Was bedeutet "sorprender que"?',options:['überraschen, dass','erschrecken, dass','traurig sein, dass','wütend sein, dass'],answer:0,hint:'sorprender = überraschen',expl:'sorprender que = überraschen, dass'},
+  {cat:'ausl-emo',diff:2,kind:'mc',q:'Was bedeutet "tener miedo de que"?',options:['Angst haben, dass','hoffen, dass','wünschen, dass','glauben, dass'],answer:0,hint:'tener miedo = Angst haben',expl:'tener miedo de que = Angst haben, dass'},
+  {cat:'ausl-emo',diff:2,kind:'mc',q:'"Me alegra que tú ___ aquí." – Welche Form von estar?',options:['estés','estás','estarás','estarías'],answer:0,hint:'alegrarse de que + Subjuntivo. estar ist DISHES: estés',expl:'estés – estar ist DISHES-unregelmäßig.'},
+  {cat:'ausl-emo',diff:3,kind:'mc',q:'Welcher Satz braucht Subjuntivo?',options:['Me alegra que tú estés aquí.','Creo que tú estás aquí.','Sé que tú estás aquí.','Veo que tú estás aquí.'],answer:0,hint:'Nur Emotionsauslöser → Subjuntivo. Creo/sé/veo que → Indikativo',expl:'Me alegra que … – Emotionsauslöser → Subjuntivo. Creo/sé/veo = Indikativo.'},
+  {cat:'ausl-emo',diff:3,kind:'mc',q:'Was bedeutet "estar contento de que"?',options:['froh/glücklich sein, dass','wütend sein, dass','enttäuscht sein, dass','überrascht sein, dass'],answer:0,hint:'contento = froh, glücklich',expl:'estar contento de que = froh sein, dass'},
+  {cat:'ausl-emo',diff:3,kind:'mc',q:'"A Ernesto le da miedo que ___ muchas preguntas difíciles." (haber)',options:['haya','hay','habrá','había'],answer:0,hint:'dar miedo que + Subjuntivo. haber ist DISHES: haya',expl:'haya – dar miedo que ist ein Emotionsauslöser.'},
+
+  // === AUSLÖSER: ZWEIFEL & VERNEINUNG ===
+  {cat:'ausl-doubt',diff:1,kind:'mc',q:'Was bedeutet "dudar que"?',options:['bezweifeln, dass','denken, dass','sagen, dass','wissen, dass'],answer:0,hint:'dudar = bezweifeln',expl:'dudar que = bezweifeln, dass → Subjuntivo'},
+  {cat:'ausl-doubt',diff:1,kind:'mc',q:'"No creo que ella ___." – Welcher Modus?',options:['Subjuntivo','Indikativo','Infinitivo','Konditional'],answer:0,hint:'no creer que = Verneinung von creer → Subjuntivo',expl:'Subjuntivo. no creer que = nicht glauben → Zweifel → Subjuntivo.'},
+  {cat:'ausl-doubt',diff:2,kind:'mc',q:'Welcher Ausdruck löst KEINEN Subjuntivo aus?',options:['Creo que ella viene.','No creo que ella venga.','Dudo que ella venga.','Es posible que ella venga.'],answer:0,hint:'creo que (positiv) → Indikativo!',expl:'Creo que + Indikativo! Nur "no creo que" → Subjuntivo.'},
+  {cat:'ausl-doubt',diff:2,kind:'mc',q:'"Dudo que ___ verdad." (ser)',options:['sea','es','será','sería'],answer:0,hint:'dudar que + Subjuntivo. ser ist DISHES: sea',expl:'sea – dudar que löst Subjuntivo aus.'},
+  {cat:'ausl-doubt',diff:3,kind:'mc',q:'"No pienso que él ___ razón." (tener)',options:['tenga','tiene','tendrá','tendría'],answer:0,hint:'no pensar que + Subjuntivo. tener: YOIGO teng- → tenga',expl:'tenga – no pensar que = Zweifel → Subjuntivo.'},
+  {cat:'ausl-doubt',diff:3,kind:'mc',q:'Warum steht hier Indikativo: "Pienso que él tiene razón."?',options:['pensar que (positiv) → Indikativo','pensar löst nie Subj. aus','Es fehlt ein Auslöser','Es ist eine Frage'],answer:0,hint:'pienso que (positiv) → Indikativo. Nur no pienso que → Subjuntivo.',expl:'pensar que = denken, dass → Indikativo (Aussage). Nur die Verneinung löst Subjuntivo aus.'},
+
+  // === AUSLÖSER: UNPERSÖNLICH ===
+  {cat:'ausl-impers',diff:1,kind:'mc',q:'Was bedeutet "es importante que"?',options:['es ist wichtig, dass','es ist gut, dass','es ist klar, dass','es ist wahr, dass'],answer:0,hint:'importante = wichtig',expl:'es importante que = es ist wichtig, dass → Subjuntivo'},
+  {cat:'ausl-impers',diff:1,kind:'mc',q:'Was bedeutet "es una lástima que"?',options:['es ist schade, dass','es ist schön, dass','es ist langweilig, dass','es ist seltsam, dass'],answer:0,hint:'lástima = Jammer, Schade',expl:'es una lástima que = es ist schade, dass'},
+  {cat:'ausl-impers',diff:1,kind:'mc',q:'"Es importante que tú ___ puntual." (llegar)',options:['llegues','llegas','llegarás','llegarías'],answer:0,hint:'es importante que + Subj. llegar: g→gu + -es',expl:'llegues – unpersönlicher Auslöser + Rechtschreibregel.'},
+  {cat:'ausl-impers',diff:2,kind:'mc',q:'Was bedeutet "es necesario que"?',options:['es ist nötig, dass','es ist möglich, dass','es ist verboten, dass','es ist wichtig, dass'],answer:0,hint:'necesario = nötig, notwendig',expl:'es necesario que = es ist nötig, dass'},
+  {cat:'ausl-impers',diff:2,kind:'mc',q:'Was bedeutet "no es justo que"?',options:['es ist nicht gerecht, dass','es ist gut, dass','es ist unglaublich, dass','es ist sicher, dass'],answer:0,hint:'justo = gerecht',expl:'no es justo que = es ist nicht gerecht, dass'},
+  {cat:'ausl-impers',diff:2,kind:'mc',q:'"Es posible que mañana ___ frío." (hacer)',options:['haga','hace','hará','haría'],answer:0,hint:'es posible que + Subj. hacer: hago → haga',expl:'haga – es posible que ist unpersönlicher Auslöser.'},
+  {cat:'ausl-impers',diff:3,kind:'mc',q:'Was bedeutet "es increíble que"?',options:['es ist unglaublich, dass','es ist traurig, dass','es ist verboten, dass','es ist unmöglich, dass'],answer:0,hint:'increíble = unglaublich',expl:'es increíble que = es ist unglaublich, dass'},
+  {cat:'ausl-impers',diff:3,kind:'mc',q:'"No es justo que haya tantos pobres." – Welche Funktion hat "haya"?',options:['Subjuntivo von haber (unpersönl. Auslöser)','Imperfekt von haben','Futuro von haber','Konditional von haber'],answer:0,hint:'es una expresión impersonal → Subjuntivo. haber ist DISHES.',expl:'haya ist Subjuntivo von haber. No es justo que ist der Auslöser.'},
+  {cat:'ausl-impers',diff:3,kind:'mc',q:'Welcher Satz ist korrekt für "Es ist schade, dass du nicht kommen kannst."?',options:['Es una lástima que no puedas venir.','Es una lástima que no puedes venir.','Es una lástima no poder venir.','Es una lástima que no vendrás.'],answer:0,hint:'es una lástima que + Subjuntivo. poder (o→ue): puedas (tú)',expl:'Es una lástima que no puedas venir. – Subjuntivo nach unpersönlichem Auslöser.'},
+
+  // === VOKABULAR ===
+  {cat:'vocab',diff:1,kind:'mc',q:'echar de menos a alg.',options:['jdn. vermissen','jdn. anrufen','jdm. helfen','jdn. suchen'],answer:0,expl:'echar de menos = vermissen'},
+  {cat:'vocab',diff:1,kind:'mc',q:'la bufanda',options:['der Schal','die Mütze','die Jacke','der Handschuh'],answer:0,expl:'la bufanda = der Schal'},
+  {cat:'vocab',diff:1,kind:'mc',q:'nevar (e>ie)',options:['schneien','regnen','frieren','wehen'],answer:0,expl:'nevar = schneien'},
+  {cat:'vocab',diff:1,kind:'mc',q:'ojalá (que)',options:['hoffentlich / wenn doch','vielleicht','bestimmt','trotzdem'],answer:0,expl:'ojalá = hoffentlich / wenn doch'},
+  {cat:'vocab',diff:1,kind:'mc',q:'viajar',options:['reisen','tanzen','lernen','wohnen'],answer:0,expl:'viajar = reisen'},
+  {cat:'vocab',diff:1,kind:'mc',q:'el intercambio',options:['der Austausch','die Reise','die Prüfung','der Kurs'],answer:0,expl:'el intercambio = der Austausch'},
+  {cat:'vocab',diff:2,kind:'mc',q:'estar malo/-a',options:['krank sein','böse sein','eine schlechte Note haben','sich langweilen'],answer:0,expl:'estar malo = krank sein (≠ ser malo = böse sein)'},
+  {cat:'vocab',diff:2,kind:'mc',q:'ser listo/-a',options:['klug sein','fertig sein','schnell sein','ordentlich sein'],answer:0,expl:'ser listo = klug sein (≠ estar listo = fertig sein)'},
+  {cat:'vocab',diff:2,kind:'mc',q:'quedar con hambre',options:['hungrig bleiben','Hunger bekommen','satt werden','essen gehen'],answer:0,expl:'quedar con hambre = hungrig bleiben'},
+  {cat:'vocab',diff:2,kind:'mc',q:'regalar a/c a alg.',options:['jdm. etw. schenken','jdm. etw. leihen','etw. kaufen','jdn. überraschen'],answer:0,expl:'regalar = schenken'},
+  {cat:'vocab',diff:2,kind:'mc',q:'el mercadillo de Navidad',options:['der Weihnachtsmarkt','der Flohmarkt','das Weihnachtsgeschenk','die Krippe'],answer:0,expl:'el mercadillo de Navidad = der Weihnachtsmarkt'},
+  {cat:'vocab',diff:2,kind:'mc',q:'imaginarse',options:['sich vorstellen','sich erinnern','sich ärgern','sich beeilen'],answer:0,expl:'imaginarse = sich vorstellen'},
+  {cat:'vocab',diff:3,kind:'mc',q:'estar rico/-a',options:['lecker sein','reich sein','satt sein','gut aussehen'],answer:0,expl:'estar rico = lecker sein (≠ ser rico = reich sein)'},
+  {cat:'vocab',diff:3,kind:'mc',q:'ser cierto que',options:['es stimmt, dass','es wäre schön, wenn','es ist unklar, ob','es ist schade, dass'],answer:0,expl:'ser cierto que = es stimmt / ist wahr, dass'},
+  {cat:'vocab',diff:3,kind:'mc',q:'echarse a reír',options:['anfangen zu lachen','aufhören zu lachen','anfangen zu weinen','sich schämen'],answer:0,expl:'echarse a reír = anfangen zu lachen'},
+  {cat:'vocab',diff:3,kind:'mc',q:'saludar a alg. de parte de alg.',options:['jdn. von jdm. grüßen','jdn. anrufen','jdm. schreiben','jdn. besuchen'],answer:0,expl:'saludar de parte de = jdn. von jdm. grüßen'},
+  {cat:'vocab',diff:3,kind:'mc',q:'llenarse',options:['sich füllen / satt werden','sich leeren','voll sein','aufhören'],answer:0,expl:'llenarse = sich füllen / voll werden / satt werden'},
+];
+
+const SVG = {
+  pen:    `<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+  bolt:   `<svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  cycle:  `<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>`,
+  spell:  `<svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>`,
+  star:   `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  heart:  `<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  doubt:  `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  speech: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  book:   `<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>`,
+  award:  `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+};
+const CATS = [
+  {key:'subj-reg',  icon:SVG.pen,   name:'Subjuntivo: Reguläre Formen', sub:'hablar, comer, vivir …'},
+  {key:'subj-irr',  icon:SVG.bolt,  name:'Subjuntivo: DISHES-Verben',   sub:'ser, estar, ir, haber …'},
+  {key:'subj-stem', icon:SVG.cycle, name:'Subjuntivo: Stammvokal',       sub:'pensar, poder, dormir …'},
+  {key:'subj-spell',icon:SVG.spell, name:'Subjuntivo: Rechtschreibung',  sub:'-car, -gar, -zar'},
+  {key:'ausl-wish', icon:SVG.star,  name:'Auslöser: Wünsche',            sub:'esperar, querer, desear …'},
+  {key:'ausl-emo',  icon:SVG.heart, name:'Auslöser: Emotionen',          sub:'molestar, alegrar, sorprender …'},
+  {key:'ausl-doubt',icon:SVG.doubt, name:'Auslöser: Zweifel',            sub:'no creer, dudar …'},
+  {key:'ausl-impers',icon:SVG.speech,name:'Auslöser: Unpersönlich',      sub:'es importante, es una lástima …'},
+  {key:'vocab',     icon:SVG.book,  name:'Vokabular U6A',                sub:'Wörter & Ausdrücke'},
+  {key:'__all__',   icon:SVG.award, name:'Finaler Test',                 sub:'Alle Kategorien gemischt', final:true},
+];
+
+// ─── STATE ───
+let diff=1, curCat='', queue=[], idx=0, score=0, answered=false;
+
+const DIFF_LABELS={1:{txt:'A – Leicht',cls:'badge-green'},2:{txt:'B – Mittel',cls:'badge-gold'},3:{txt:'C – Schwer',cls:'badge-red'}};
+
+function setDiff(d){
+  diff = d==='easy'?1:d==='medium'?2:3;
+  ['easy','medium','hard'].forEach(x=>{
+    const b=document.getElementById('d-'+x);
+    b.className='diff-btn'+(d===x?' on-'+d:'');
+  });
 }
 
-function startQuiz(){
-  let items=[];
-  if(mode!=='vocab'&&mode!=='ausl') items=items.concat(SUBJ_Q.map(x=>({...x,kind:'gap'})));
-  if(mode!=='subj'&&mode!=='ausl') items=items.concat(VOCAB_Q.map(x=>({...x,kind:'mc'})));
-  if(mode!=='subj'&&mode!=='vocab') items=items.concat(AUSL_Q.map(x=>({...x,kind:'mc'})));
-  if(mode==='ausl') items=AUSL_Q.map(x=>({...x,kind:'mc'}));
-  queue=shuffle(items).map(i=>i.kind==='mc'?shuffleOpts(i):i);
-  idx=0;score=0;
-  document.getElementById('quiz-card').style.display='block';
-  document.getElementById('result-box').style.display='none';
+function buildCatGrid(){
+  const g=document.getElementById('cat-grid'); g.innerHTML='';
+  CATS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='cat-btn'+(c.final?' final-cat':'');
+    b.innerHTML=`<span class="cat-icon">${c.icon}</span><span class="cat-name">${c.name}</span><span class="cat-sub">${c.sub}</span>`;
+    b.onclick=()=>startCat(c.key);
+    g.appendChild(b);
+  });
+}
+
+function showCats(){
+  document.getElementById('cat-screen').style.display='block';
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('diff-row').style.display='flex';
+  document.getElementById('ref-bar').style.display='none';
+}
+
+function startCat(key){
+  curCat=key;
+  let pool;
+  if(key==='__all__'){
+    pool=QDB.filter(q=>q.diff===diff);
+    if(pool.length===0) pool=QDB.slice();
+  } else {
+    pool=QDB.filter(q=>q.cat===key && q.diff===diff);
+    if(pool.length===0) pool=QDB.filter(q=>q.cat===key);
+  }
+  queue=shuffle(pool).map(q=>q.kind==='mc'?shuffleOpts(q):q);
+  idx=0; score=0;
+  document.getElementById('cat-screen').style.display='none';
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('diff-row').style.display='none';
+  document.getElementById('quiz-screen').style.display='block';
+  document.getElementById('ref-bar').style.display='block';
   render();
 }
 
-function render(){
-  const it=queue[idx]; answered=false;
-  document.getElementById('bar').style.width=(idx/queue.length*100)+'%';
-  document.getElementById('counter').textContent='Frage '+(idx+1)+' von '+queue.length;
-  document.getElementById('type').textContent=it.tag;
-  document.getElementById('question').textContent=it.q;
-  const hint=document.getElementById('hint');
-  const area=document.getElementById('area');
-  const fb=document.getElementById('feedback');
-  fb.style.display='none'; fb.className='feedback';
-  area.innerHTML='';
-  document.getElementById('check').style.display='none';
-  document.getElementById('next').style.display='none';
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function shuffleOpts(q){const cor=q.options[q.answer];const opts=shuffle(q.options);return{...q,options:opts,answer:opts.indexOf(cor)};}
 
-  if(it.kind==='gap'){
-    hint.textContent='💡 Tipp: '+it.hint; hint.style.display='block';
-    area.innerHTML='<input class="gap" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Form eingeben …">';
-    const inp=document.getElementById('ans');
+function render(){
+  const q=queue[idx]; answered=false;
+  document.getElementById('prog-fill').style.width=(idx/queue.length*100)+'%';
+  document.getElementById('prog-txt').textContent='Frage '+(idx+1)+' / '+queue.length;
+  document.getElementById('score-live').textContent=score+' richtig';
+  const dl=DIFF_LABELS[q.diff]||DIFF_LABELS[diff];
+  document.getElementById('q-tag').textContent=CATS.find(c=>c.cat===q.cat)?.icon+' '+(CATS.find(c=>c.key===q.cat)?.name.split(':')[1]||q.cat)||q.cat;
+  const db=document.getElementById('diff-badge');
+  db.className='badge '+dl.cls; db.textContent=dl.txt;
+  document.getElementById('q-text').textContent=q.q;
+  const fb=document.getElementById('q-fb'); fb.style.display='none'; fb.className='fb';
+  document.getElementById('q-area').innerHTML='';
+  document.getElementById('btn-check').style.display='none';
+  document.getElementById('btn-next').style.display='none';
+
+  if(q.kind==='gap'){
+    const inp=document.createElement('input'); inp.type='text'; inp.className='gap';
+    inp.autocomplete='off'; inp.autocapitalize='off'; inp.spellcheck=false;
+    inp.placeholder='Form eingeben …';
     inp.addEventListener('keydown',e=>{if(e.key==='Enter')submitGap();});
-    const c=document.getElementById('check'); c.style.display='inline-block'; c.onclick=submitGap;
-    inp.focus();
+    document.getElementById('q-area').appendChild(inp);
+    document.getElementById('btn-check').style.display='inline-block';
+    setTimeout(()=>inp.focus(),50);
   } else {
-    hint.style.display='none';
     const wrap=document.createElement('div'); wrap.className='opts';
-    it.options.forEach((o,i)=>{
+    q.options.forEach((o,i)=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>pickMc(i); wrap.appendChild(b);
+    });
+    document.getElementById('q-area').appendChild(wrap);
+  }
+}
+
+function norm(s){return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');}
+
+function submitGap(){
+  if(answered)return;
+  const q=queue[idx]; const inp=document.querySelector('#q-area input.gap');
+  if(!inp||!inp.value.trim())return;
+  answered=true;
+  const ok=norm(inp.value)===norm(q.answer);
+  if(ok)score++;
+  inp.classList.add(ok?'correct':'wrong'); inp.disabled=true;
+  showFb(ok, q, ok?null:q.answer);
+}
+
+function pickMc(i){
+  if(answered)return; const q=queue[idx]; answered=true;
+  const btns=document.querySelectorAll('#q-area button.opt'); btns.forEach(b=>b.disabled=true);
+  const ok=i===q.answer; if(ok)score++;
+  btns[i].classList.add(ok?'correct':'wrong');
+  if(!ok)btns[q.answer].classList.add('correct');
+  showFb(ok, q, ok?null:q.options[q.answer]);
+}
+
+function showFb(ok, q, correctAns){
+  const fb=document.getElementById('q-fb');
+  fb.className='fb '+(ok?'ok':'no');
+  let html=(ok?'<b style="color:var(--accent)">Richtig.</b>':'<b style="color:var(--bad)">Falsch.</b>'+(correctAns?' Richtige Antwort: <b>'+correctAns+'</b>.':''));
+  if(q.expl) html+=' <span style="opacity:.85">'+q.expl+'</span>';
+  if(!ok && q.hint) html+='<div class="tipp">Hinweis: '+q.hint+'</div>';
+  fb.innerHTML=html; fb.style.display='block';
+  document.getElementById('btn-check').style.display='none';
+  if(ok){
+    document.getElementById('btn-retry').style.display='none';
+    const nx=document.getElementById('btn-next'); nx.style.display='inline-block';
+    nx.textContent=idx+1<queue.length?'Weiter →':'Ergebnis';
+  } else {
+    document.getElementById('btn-next').style.display='none';
+    document.getElementById('btn-retry').style.display='inline-block';
+  }
+}
+
+function retryQ(){
+  // Frage zurücksetzen ohne Score zu verändern
+  const fb=document.getElementById('q-fb');
+  fb.style.display='none'; fb.className='fb';
+  document.getElementById('btn-retry').style.display='none';
+  document.getElementById('btn-next').style.display='none';
+  const q=queue[idx];
+  const area=document.getElementById('q-area');
+  area.innerHTML='';
+  answered=false;
+  if(q.kind==='gap'){
+    const inp=document.createElement('input'); inp.type='text'; inp.className='gap';
+    inp.autocomplete='off'; inp.autocapitalize='off'; inp.spellcheck=false;
+    inp.placeholder='Nochmal eingeben …';
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')submitGap();});
+    area.appendChild(inp);
+    document.getElementById('btn-check').style.display='inline-block';
+    setTimeout(()=>inp.focus(),50);
+  } else {
+    // MC: Optionen neu rendern
+    const shuffled=shuffleOpts(q);
+    queue[idx]=shuffled;
+    const wrap=document.createElement('div'); wrap.className='opts';
+    shuffled.options.forEach((o,i)=>{
       const b=document.createElement('button'); b.className='opt'; b.textContent=o;
       b.onclick=()=>pickMc(i); wrap.appendChild(b);
     });
@@ -511,135 +879,168 @@ function render(){
   }
 }
 
-function norm(s){return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-
-function submitGap(){
-  if(answered)return;
-  const it=queue[idx]; const inp=document.getElementById('ans');
-  if(!inp.value.trim())return; answered=true;
-  const ok=norm(inp.value)===norm(it.answer);
-  if(ok)score++;
-  inp.classList.add(ok?'correct':'wrong'); inp.disabled=true;
-  showFb(ok, ok?'✅ Richtig! '+it.expl:'❌ Falsch. Richtig wäre: <b>'+it.answer+'</b>. '+it.expl);
-}
-
-function pickMc(i){
-  if(answered)return; const it=queue[idx]; answered=true;
-  const btns=document.querySelectorAll('button.opt'); btns.forEach(b=>b.disabled=true);
-  const ok=i===it.answer; if(ok)score++;
-  btns[i].classList.add(ok?'correct':'wrong');
-  if(!ok)btns[it.answer].classList.add('correct');
-  showFb(ok, ok?'✅ Richtig!':'❌ Falsch. Richtig: <b>'+it.options[it.answer]+'</b>');
-}
-
-function showFb(ok,html){
-  const fb=document.getElementById('feedback');
-  fb.className='feedback '+(ok?'ok':'no'); fb.innerHTML=html; fb.style.display='block';
-  document.getElementById('check').style.display='none';
-  const nx=document.getElementById('next'); nx.style.display='inline-block';
-  nx.textContent=idx+1<queue.length?'Weiter →':'Ergebnis anzeigen';
-  nx.onclick=()=>{idx++;if(idx>=queue.length)finish();else render();};
-}
+function nextQ(){idx++;if(idx>=queue.length)finish();else render();}
 
 function finish(){
-  document.getElementById('bar').style.width='100%';
-  document.getElementById('quiz-card').style.display='none';
-  document.getElementById('result-box').style.display='block';
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
   const pct=Math.round(score/queue.length*100);
-  document.getElementById('final-score').textContent=score+' / '+queue.length+' ('+pct+' %)';
-  document.getElementById('final-comment').textContent=
-    pct>=85?'Excelente! Du bist bereit für die Prüfung 🎉':
-    pct>=65?'Muy bien! Schau dir nochmal die Formen an, bei denen du gezögert hast.':
-    pct>=45?'Solide – wiederhole die DISHES-Verben und die Auslöser.':
-    'Kein Problem. Starte mit der Regelseite und probiere es dann erneut!';
+  document.getElementById('res-score').textContent=score+' / '+queue.length;
+  document.getElementById('res-label').textContent=pct+' %';
+  document.getElementById('res-stars').textContent=pct>=85?'Sehr gut':pct>=60?'Gut':'Weiter üben';
+  document.getElementById('res-msg').textContent=
+    pct>=85?'Excelente — du bist gut vorbereitet.':
+    pct>=60?'Muy bien — schau dir die Regeln zu den Fehlern nochmal an.':
+    'Lies zuerst die Regeln und versuche es dann erneut.';
 }
 
-// ---- LESEVERSTEHEN ----
-const LESE = [
-  {q:"¿De qué país son Simón y Zuzana?",options:["Tschechien","Polen","Deutschland","Slowakei"],answer:0,expl:"Im Text: «Simón y Zuzana (República Checa)»."},
-  {q:"¿Cuántas horas de inglés tienen los chicos checos al día?",options:["4 Stunden","2 Stunden","6 Stunden","3 Stunden"],answer:0,expl:"«tenemos 4 horas de inglés» – 4 Stunden täglich."},
-  {q:"¿Qué hace un grupo de alumnos checos cada día?",options:["Eine Zeitung auf Englisch schreiben","Einen Film auf Englisch schauen","Einen Brief auf Englisch lesen","Ski fahren gehen"],answer:0,expl:"«cada día, un grupo escribe un periódico en inglés»."},
-  {q:"En el sistema de notas polaco, ¿qué número es la mejor nota?",options:["6","1","10","5"],answer:0,expl:"Mercin sagt: «sobre 20 es lo mejor» – also die 6."},
-  {q:"Según Mercin, ¿cuándo se evalúa a los alumnos polacos principalmente?",options:["Noten während des Schuljahres","Nur am Ende in einem Examen","Durch mündliche Prüfungen","Durch Projekte"],answer:0,expl:"«Lo más importante son las notas que tenemos durante el curso»."},
-  {q:"¿Qué hace Ulrike (Alemania) después de las clases?",options:["Theater und Chor","Hausaufgaben und Sport","Musik und Lesen","Informatik und Chor"],answer:0,expl:"«hago teatro y voy a una coral»."},
-  {q:"¿Qué hace Katerina (Eslovaquia) por las tardes?",options:["Sport und Informatik","Chor und Theater","Hausaufgaben und Musik","Englisch und Lesen"],answer:0,expl:"«Por las tardes hago deporte e informática»."},
-  {q:"Según Emma, ¿para qué usan los ordenadores en las escuelas británicas?",options:["Als Werkzeug für alle Fächer","Nur für Informatik","Um Filme zu schauen","Um Nachrichten zu schreiben"],answer:0,expl:"«Utilizamos las herramientas de TIC para preparar una exposición en clase … todas las asignaturas»."},
-  {q:"¿Qué países usan más las TIC en sus escuelas?",options:["Länder im Norden Europas","Großbritannien","Deutschland","Spanien"],answer:0,expl:"«los países del norte son los que más las utilizan»."},
-  {q:"¿Cuántas horas de clase tiene Chiara (Italia) de lunes a viernes?",options:["5 Stunden täglich","6 Stunden täglich","4 Stunden täglich","3 Stunden täglich"],answer:0,expl:"«Tenemos 5 horas de clase los lunes, martes, miércoles, jueves y viernes»."},
+// ─── LESEVERSTEHEN ───
+const LESE=[
+  {q:'¿De qué país son Simón y Zuzana?',options:['Tschechien (República Checa)','Polen','Deutschland','Slowakei'],answer:0,expl:'«Simón y Zuzana (República Checa)».'},
+  {q:'¿Cuántas horas de inglés tienen los alumnos checos al día?',options:['4 Stunden','2 Stunden','6 Stunden','3 Stunden'],answer:0,expl:'«tenemos 4 horas de inglés».'},
+  {q:'¿Qué hace un grupo de alumnos checos cada día?',options:['Sie schreiben eine Zeitung auf Englisch','Sie schauen Filme auf Englisch','Sie schreiben Briefe auf Englisch','Sie gehen Ski fahren'],answer:0,expl:'«cada día, un grupo escribe un periódico en inglés».'},
+  {q:'En el sistema polaco, ¿qué número es la mejor nota?',options:['6','1','10','5'],answer:0,expl:'«sobre 20 es lo mejor» → die 6.'},
+  {q:'Según Mercin, ¿cuándo se evalúa principalmente a los alumnos polacos?',options:['Während des Schuljahres','Nur am Ende durch ein Examen','Nur mündlich','Durch Projekte'],answer:0,expl:'«Lo más importante son las notas que tenemos durante el curso».'},
+  {q:'¿Qué hace Ulrike (Alemania) después de clase?',options:['Theater und Chor','Hausaufgaben und Sport','Musik und Lesen','Informatik und Chor'],answer:0,expl:'«hago teatro y voy a una coral».'},
+  {q:'¿Qué hace Katerina (Eslovaquia) por las tardes?',options:['Sport und Informatik','Chor und Theater','Hausaufgaben und Musik','Englisch und Lesen'],answer:0,expl:'«Por las tardes hago deporte e informática».'},
+  {q:'Según Emma (Reino Unido), ¿para qué usan las TIC?',options:['Als Werkzeug für alle Fächer','Nur für Informatik-Unterricht','Um Nachrichten zu schreiben','Um Filme zu schauen'],answer:0,expl:'«Utilizamos las herramientas de TIC para preparar una exposición en clase … todas las asignaturas».'},
+  {q:'¿Qué países usan más las TIC en sus escuelas?',options:['Die Länder im Norden Europas','Großbritannien','Deutschland','Spanien'],answer:0,expl:'«los países del norte son los que más las utilizan».'},
+  {q:'¿Cuántas horas de clase tiene Chiara (Italia) de lunes a viernes?',options:['5 Stunden täglich','6 Stunden täglich','4 Stunden täglich','3 Stunden täglich'],answer:0,expl:'«Tenemos 5 horas de clase de lunes a viernes».'},
 ];
-
-let leseQ=[], leseIdx=0, leseScore=0, leseAnswered=false;
-
+let leseQ=[],leseIdx=0,leseScore=0,leseAns=false;
 function startLesen(){
   leseQ=shuffle(LESE).map(x=>shuffleOpts(x));
-  leseIdx=0;leseScore=0;leseAnswered=false;
+  leseIdx=0;leseScore=0;leseAns=false;
   document.getElementById('lese-result').style.display='none';
   renderLese();
 }
-
 function renderLese(){
-  const it=leseQ[leseIdx]; leseAnswered=false;
-  const out=document.getElementById('lese-q');
-  out.innerHTML='';
-  const card=document.createElement('div'); card.className='card';
-  card.innerHTML='<div class="tag">Comprensión Lectora</div><p class="q" style="margin-top:8px">'+(leseIdx+1)+'. '+it.q+'</p><div class="opts" id="lese-opts"></div><div id="lese-fb" class="feedback" style="display:none"></div><div class="row" style="margin-top:12px"><button id="lese-next" class="primary" style="display:none">Weiter →</button></div>';
-  out.appendChild(card);
-  const opts=document.getElementById('lese-opts');
+  const it=leseQ[leseIdx]; leseAns=false;
+  const out=document.getElementById('lese-q-area'); out.innerHTML='';
+  const c=document.createElement('div'); c.className='card';
+  c.innerHTML='<span class="badge badge-green" style="margin-bottom:10px">Comprensión Lectora</span><div class="q-text">'+(leseIdx+1)+'. '+it.q+'</div><div class="opts" id="lese-opts"></div><div class="fb" id="lese-fb"></div><div class="btn-row" style="margin-top:12px"><button class="btn btn-primary" id="lese-nx" style="display:none">Weiter →</button></div>';
+  out.appendChild(c);
+  const wrap=document.getElementById('lese-opts');
   it.options.forEach((o,i)=>{
     const b=document.createElement('button'); b.className='opt'; b.textContent=o;
-    b.onclick=()=>pickLese(i); opts.appendChild(b);
+    b.onclick=()=>{
+      if(leseAns)return; leseAns=true;
+      const btns=wrap.querySelectorAll('button'); btns.forEach(b=>b.disabled=true);
+      const ok=i===it.answer; if(ok)leseScore++;
+      btns[i].classList.add(ok?'correct':'wrong');
+      if(!ok)btns[it.answer].classList.add('correct');
+      const fb=document.getElementById('lese-fb');
+      fb.className='fb '+(ok?'ok':'no');
+      fb.innerHTML=(ok?'<b style="color:var(--accent)">Richtig.</b>':'<b style="color:var(--bad)">Falsch.</b>')+' '+it.expl;
+      fb.style.display='block';
+      const nx=document.getElementById('lese-nx'); nx.style.display='inline-block';
+      nx.textContent=leseIdx+1<leseQ.length?'Weiter →':'Ergebnis';
+      nx.onclick=()=>{leseIdx++;if(leseIdx>=leseQ.length)finishLesen();else renderLese();};
+    };
+    wrap.appendChild(b);
   });
 }
-
-function pickLese(i){
-  if(leseAnswered)return; leseAnswered=true;
-  const it=leseQ[leseIdx];
-  const btns=document.querySelectorAll('#lese-opts button.opt'); btns.forEach(b=>b.disabled=true);
-  const ok=i===it.answer; if(ok)leseScore++;
-  btns[i].classList.add(ok?'correct':'wrong');
-  if(!ok)btns[it.answer].classList.add('correct');
-  const fb=document.getElementById('lese-fb');
-  fb.className='feedback '+(ok?'ok':'no');
-  fb.innerHTML=(ok?'✅ Richtig!':'❌ Falsch.')+' '+it.expl;
-  fb.style.display='block';
-  const nx=document.getElementById('lese-next'); nx.style.display='inline-block';
-  nx.textContent=leseIdx+1<leseQ.length?'Weiter →':'Ergebnis anzeigen';
-  nx.onclick=()=>{leseIdx++;if(leseIdx>=leseQ.length)finishLesen();else renderLese();};
-}
-
 function finishLesen(){
-  document.getElementById('lese-q').innerHTML='';
-  const res=document.getElementById('lese-result'); res.style.display='block';
+  document.getElementById('lese-q-area').innerHTML='';
+  const r=document.getElementById('lese-result'); r.style.display='block';
   const pct=Math.round(leseScore/leseQ.length*100);
   document.getElementById('lese-score').textContent=leseScore+' / '+leseQ.length+' ('+pct+' %)';
-  document.getElementById('lese-comment').textContent=
-    pct>=75?'Muy bien! Du verstehst den Text gut.':'Lies den Text nochmal durch und versuche es erneut!';
+  document.getElementById('lese-stars').textContent=pct>=80?'Sehr gut':pct>=50?'Gut':'Weiter üben';
+  document.getElementById('lese-msg').textContent=pct>=80?'Der Text ist gut verstanden.':'Lies den Text nochmal durch und versuche es erneut.';
 }
 
-// ---- SCHREIBEN ----
+// ─── SCHREIBEN ───
+const THEMEN = [
+  {
+    frage:'¿Cómo te imaginas un instituto ideal?',
+    hilfe:[
+      'Ojalá que el instituto <b>tenga</b> muchos ordenadores.',
+      'Espero que los profes <b>sean</b> simpáticos y justos.',
+      'Me gustaría que no <b>hubiera</b> tantos deberes.',
+      'Quiero que las clases <b>empiecen</b> más tarde.',
+      'Es importante que los alumnos <b>puedan</b> elegir las asignaturas.',
+      'No me gusta que los profes <b>pongan</b> demasiados exámenes.',
+      'Prefiero que el instituto <b>tenga</b> una piscina y un gimnasio.',
+      'Ojalá que todo el mundo se <b>lleve</b> bien.',
+    ]
+  },
+  {
+    frage:'¿Te gustaría participar en un intercambio? ¿Por qué?',
+    hilfe:[
+      'Me gustaría <b>participar</b> en un intercambio porque …',
+      'Espero que la familia de acogida <b>sea</b> simpática.',
+      'Tengo miedo de que no <b>entienda</b> el idioma.',
+      'Ojalá que <b>pueda</b> mejorar mi español.',
+      'Es importante que los participantes <b>tengan</b> ganas de aprender.',
+      'Me alegra que <b>haya</b> intercambios internacionales en mi colegio.',
+      'Quiero que el intercambio <b>dure</b> al menos dos semanas.',
+      'Espero que <b>hagamos</b> muchas excursiones juntos.',
+    ]
+  },
+  {
+    frage:'¿Cómo es tu colegio comparado con los de otros países europeos?',
+    hilfe:[
+      'En mi colegio es necesario que los alumnos <b>lleguen</b> a las ocho.',
+      'Me sorprende que en Polonia no <b>haya</b> examen final.',
+      'Es una lástima que en mi colegio no <b>podamos</b> elegir las asignaturas.',
+      'Ojalá que las clases <b>empiecen</b> más tarde, como en otros países.',
+      'Me gustaría que <b>tuviéramos</b> más actividades extraescolares.',
+      'No es justo que <b>haya</b> tantos deberes en comparación con Italia.',
+      'Espero que nuestro colegio <b>use</b> más las TIC en clase.',
+      'Es importante que los alumnos <b>descansen</b> lo suficiente.',
+    ]
+  },
+  {
+    frage:'¿Qué esperas del futuro? ¿Qué ojalá que pase?',
+    hilfe:[
+      'Espero que en el futuro <b>haya</b> más igualdad.',
+      'Ojalá que <b>pueda</b> estudiar lo que me gusta.',
+      'Me gustaría que mis amigos y yo <b>sigamos</b> en contacto.',
+      'Es importante que todo el mundo <b>tenga</b> acceso a la educación.',
+      'Tengo miedo de que los exámenes <b>sean</b> muy difíciles.',
+      'Espero que mi familia <b>esté</b> siempre bien.',
+      'Quiero que el mundo <b>sea</b> un lugar más justo.',
+      'Ojalá que <b>encontremos</b> soluciones para el cambio climático.',
+    ]
+  }
+];
+
+function selectThema(i){
+  const t=THEMEN[i];
+  document.getElementById('schreib-frage').textContent=t.frage;
+  const ul=document.getElementById('schreib-hilfe'); ul.innerHTML='';
+  t.hilfe.forEach(s=>{const li=document.createElement('li');li.innerHTML=s;ul.appendChild(li);});
+  document.getElementById('essay').value='';
+  document.getElementById('cl-out').style.display='none';
+  document.getElementById('schreib-themen').style.display='none';
+  document.getElementById('schreib-area').style.display='block';
+}
+
 function checkEssay(){
-  const text=document.getElementById('essay').value;
-  const wordCount=text.trim().split(/\s+/).filter(w=>w.length>0).length;
+  const txt=document.getElementById('essay').value;
+  const wc=txt.trim().split(/\s+/).filter(w=>w.length>0).length;
   const checks=[
-    {label:'Mindestens 80 Wörter',ok:wordCount>=80,detail:'Aktuell: '+wordCount+' Wörter'},
-    {label:'Mindestens ein "ojalá (que)"',ok:/ojalá/i.test(text),detail:'z.B.: Ojalá que el instituto tenga …'},
-    {label:'Mindestens ein "espero que"',ok:/espero que/i.test(text),detail:'z.B.: Espero que los profes sean …'},
-    {label:'Mindestens ein "para que"',ok:/para que/i.test(text),detail:'z.B.: … para que los alumnos puedan …'},
-    {label:'Subjuntivo verwendet (Verbendungen auf -e/-a)',ok:/(tenga|sean|haya|pueda|ponga|sea|vaya|haga|llegue|vengan|den|sepan|estén)/i.test(text),detail:'Achte auf die richtigen Subjuntivo-Formen!'},
-    {label:'Instituto ideal beschrieben',ok:/(instituto|colegio|clase|profe|asignatura|alumno)/i.test(text),detail:'Nenne konkrete Dinge der Schule.'},
-    {label:'Ser/Estar + Adjektiv verwendet',ok:/(sea|sean|esté|estén)\s+\w+/i.test(text),detail:'z.B.: Ojalá que los profes sean simpáticos.'},
+    {ok:wc>=80,label:'Mindestens 80 Wörter',detail:'Aktuell: '+wc+' Wörter'},
+    {ok:/ojalá/i.test(txt),label:'"ojalá (que)" verwendet',detail:'z.B.: Ojalá que el instituto tenga …'},
+    {ok:/espero que/i.test(txt),label:'"espero que" verwendet',detail:'z.B.: Espero que los profes sean …'},
+    {ok:/para que/i.test(txt),label:'"para que" verwendet',detail:'z.B.: … para que los alumnos puedan …'},
+    {ok:/(tenga|sean|haya|pueda|ponga|sea|vaya|haga|llegue|vengan|estén|sepan|digan)/i.test(txt),label:'Subjuntivo-Formen vorhanden',detail:'Achte auf Formen wie: tenga, sean, pueda …'},
+    {ok:/(instituto|colegio|clase|profe|asignatura|alumno)/i.test(txt),label:'Instituto ideal beschrieben',detail:'Nenne konkrete Aspekte der Schule.'},
+    {ok:/(sea|sean|esté|estén)\s+\w+/i.test(txt),label:'Ser/Estar + Adjektiv verwendet',detail:'z.B.: Ojalá que los profes sean simpáticos.'},
+    {ok:wc<=130,label:'Nicht mehr als 130 Wörter',detail:'Aktuell: '+wc+' Wörter – kürze wenn nötig'},
   ];
-  document.getElementById('checklist-out').style.display='block';
+  document.getElementById('cl-out').style.display='block';
   const ul=document.getElementById('cl-list'); ul.innerHTML='';
   checks.forEach(c=>{
-    const li=document.createElement('li');
-    li.innerHTML='<span class="icon">'+(c.ok?'✅':'❌')+'</span><span><b>'+c.label+'</b><br><span style="color:var(--muted);font-size:.85rem">'+c.detail+'</span></span>';
-    ul.appendChild(li);
+    const d=document.createElement('div'); d.className='cl-item';
+    d.innerHTML='<span class="ico" style="font-size:.8rem;font-weight:700;color:'+(c.ok?'var(--accent)':'var(--bad)')+'">'+  (c.ok?'OK':'—')+'</span><span><b>'+c.label+'</b><br><span style="color:var(--muted);font-size:.83rem">'+c.detail+'</span></span>';
+    ul.appendChild(d);
   });
 }
 
-// ---- INIT ----
-startQuiz();
+// ─── INIT ───
+buildCatGrid();
+showCats();
 startLesen();
 </script>
 </body>
